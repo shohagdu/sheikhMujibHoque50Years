@@ -1,0 +1,55 @@
+footer {
+    margin-top: 60px;
+    clear: both;
+    position: relative;
+    padding: 10px 10px;
+    bottom: 0;
+    width: 100%;
+    min-height: 40px;
+    background: #eee;
+    /*font-size: 14px;*/
+    text-align: center;
+}
+.bg-light-blue{
+    background-color: blue !important;
+}
+.donationHead{
+    font-weight: bold;
+    padding: 10px 0px;
+}
+
+.color-green{
+    color:green !important;
+    font-weight: bold;
+}
+.color-blue{
+    color:blue !important;
+    font-weight: bold;
+}
+.color-red{
+    color:red !important;
+    font-weight: bold;
+}
+.donationStep{
+    padding: 3px 0px;
+}
+.table-style th{
+    padding: 2px 5px;
+    border: 1px solid #eee;
+}
+.table-style td{
+    padding:2px 5px;
+    border: 1px solid #eee;
+}
+.donationFooter{
+    margin-top:40px;
+    text-align: center;
+}
+.bkashNumber{
+    letter-spacing: 2px;
+    font-size: 18px;
+}
+.bidayTeacherList li{
+    list-style: none;
+}
+
