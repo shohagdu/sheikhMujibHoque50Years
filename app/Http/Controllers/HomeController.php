@@ -20,8 +20,24 @@ class HomeController extends Controller
 //        {
 //            $this->middleware('guest');
 //        }
-
     public function index(){
+        $our_history = [];
+        $director_message = [];
+        $member_info = [];
+        return view('home.home', compact('our_history', 'director_message', 'member_info'));
+    }
+    public function about_us(){
+        $our_history = [];
+        $director_message = [];
+        $member_info = [];
+        return view('home.home', compact('our_history', 'director_message', 'member_info'));
+    }
+     public function signUp(){
+        return view('auth.register');
+    }
+
+
+    public function donationForm(){
         $fundCoordinator    =   User:: select(DB::raw("CONCAT(mobileBankBkash,' (',name,')') AS name"),'id')->where(['user_type'=>3,'status'=>1])->pluck('name','id');
         return view('home.donationForm', compact('fundCoordinator'));
     }

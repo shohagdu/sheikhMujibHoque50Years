@@ -46,6 +46,8 @@ Route::post('/donationFormAction' , [HomeController::class,'donationFormAction']
 Route::get('/events' , [HomeController::class,'events']);
 Route::get('/sendSms' , [HomeController::class,'sendSms'])->name('sendSms');
 
+Route::get('/about_us' , [HomeController::class,'about_us']);
+Route::get('/signUp' , [HomeController::class,'signUp']);
 
 Route::any('/admin', function(){
     return redirect()->route('admin.dashboard');

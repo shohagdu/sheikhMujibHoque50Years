@@ -21,10 +21,8 @@
 <body class="hold-transition login-page">
 <div class="login-box">
     <div class="col-sm-12 text-center">
-        <a  href="{{ url('/') }}"><img src="{{ url('backend/images/logo/logo.png') }}"
-                                       style="height: 80px"></a>
-        <a  href="{{ url('/') }}"><img src="{{ url('backend/images/logo/esfLogo.png') }}"
-                                       style="height: 130px"></a>
+        <img src="{{ url('backend/images/logo/logo.png') }}"
+             style="height: 150px">
     </div>
     <div class="card card-outline card-info">
         <div class="card-header text-center">
