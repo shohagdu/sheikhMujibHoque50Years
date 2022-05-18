@@ -21,16 +21,9 @@ class HomeController extends Controller
 //            $this->middleware('guest');
 //        }
     public function index(){
-        $our_history = [];
-        $director_message = [];
-        $member_info = [];
-        return view('home.home', compact('our_history', 'director_message', 'member_info'));
-    }
-    public function about_us(){
-        $our_history = [];
-        $director_message = [];
-        $member_info = [];
-        return view('home.home', compact('our_history', 'director_message', 'member_info'));
+        $our_history            = [];
+        $director_message       = [];
+        return view('home.home', compact('our_history', 'director_message'));
     }
      public function signUp(){
         return view('auth.register');
@@ -41,12 +34,40 @@ class HomeController extends Controller
         $fundCoordinator    =   User:: select(DB::raw("CONCAT(mobileBankBkash,' (',name,')') AS name"),'id')->where(['user_type'=>3,'status'=>1])->pluck('name','id');
         return view('home.donationForm', compact('fundCoordinator'));
     }
-    public function aboutUs(){
-        return view('home.aboutUs');
+    public function registrationProcess(){
+        $data=[
+            'title'     => 'রেজিস্ট্রেশন প্রক্রিয়া',
+            'info'      => '....তথ্য খুব শ্রীঘ্রই তথ্য আপডেট করা হবে।'
+        ];
+        return view('home.registrationProcess', compact('data'));
     }
-     public function events(){
-        return view('home.events');
+    public function events(){
+         $data=[
+             'title'     => 'ইভেন্ট সম্পর্কে বিস্তারিত পডুন',
+             'info'      => '....তথ্য খুব শ্রীঘ্রই তথ্য আপডেট করা হবে।'
+         ];
+         return view('home.events', compact('data'));
     }
+    public function subCommittee(){
+         $data=[
+             'title'     => 'উপকমিটি সমূহ',
+             'info'      => '....তথ্য খুব শ্রীঘ্রই তথ্য আপডেট করা হবে।'
+         ];
+         return view('home.subCommittee', compact('data'));
+    }
+    public function contactUs(){
+         $data=[
+             'title'     => 'হেল্প ডেস্ক',
+             'info'      => "<h4>৫০ বছর পূর্তি উদযাপন ২০২২</h4>
+                    <h5>শেখ মুজিবল হক উচ্চ বিদ্যালয়</h5>
+                    <h6>মজুমদারহাট, পো: ধর্মপুর, ফেনী সদর, ফেনী। </h6>
+                    <p ><i class=\"fas fa-phone\"></i>&nbsp; <a href=\"tel:01*** ******\">০১৮*** *******</a></p>"
+         ];
+         return view('home.contactUs', compact('data'));
+    }
+
+
+
 
     public function donationProcess(){
         $fundCoordinator    =   User:: select(DB::raw("CONCAT(mobileBankBkash,' (',name,')') AS name"),'id')->where(['user_type'=>3,'status'=>1])->select('name','id','mobileBankBkash')->get();
@@ -55,7 +76,6 @@ class HomeController extends Controller
 
 
     public function donationFormAction(request $request){
-
         $validator = Validator::make($request->all(), [
             'name'              => ['required', 'string', 'max:255'],
             'mobileNumber'      => ['required',   'min:11'  ,'numeric'],

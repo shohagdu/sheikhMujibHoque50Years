@@ -47,6 +47,9 @@ Route::get('/events' , [HomeController::class,'events']);
 Route::get('/sendSms' , [HomeController::class,'sendSms'])->name('sendSms');
 
 Route::get('/about_us' , [HomeController::class,'about_us']);
+Route::get('/registrationProcess' , [HomeController::class,'registrationProcess']);
+Route::get('/subCommittee' , [HomeController::class,'subCommittee']);
+Route::get('/contactUs' , [HomeController::class,'contactUs']);
 Route::get('/signUp' , [HomeController::class,'signUp']);
 
 Route::any('/admin', function(){
