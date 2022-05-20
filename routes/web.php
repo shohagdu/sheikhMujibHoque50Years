@@ -52,6 +52,8 @@ Route::get('/subCommittee' , [HomeController::class,'subCommittee']);
 Route::get('/contactUs' , [HomeController::class,'contactUs']);
 Route::get('/signUp' , [HomeController::class,'signUp']);
 
+Route::post('/registrationFormAction' , [HomeController::class,'registrationFormAction'])->name('registrationFormAction');
+
 Route::any('/admin', function(){
     return redirect()->route('admin.dashboard');
 });

@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Validator;
 
 use App\Models\User;
 use App\Models\DonarInfo;
+use App\Models\RegistrationModels;
 
 
 
@@ -223,6 +224,62 @@ class HomeController extends Controller
 
         }else{
             echo "<h1 style='text-align: center;'>No SMS Pending here....</h1>";
+        }
+    }
+
+
+    public function registrationFormAction(request $request){
+        //dd($request->all());
+        $validator = Validator::make($request->all(), [
+            'name'              => ['required', 'string', 'max:255'],
+            'mobileNo'          => ['required',   'min:11'  ,'numeric'],
+            'sscBatch'          => ['required'],
+            'password'          => ['required', 'string',  'confirmed'],
+        ],[
+            'name.required'                         => 'আপনার নাম প্রদান করুন',
+            'mobileNo.required'                     => 'আপনার মোবাইল নাম্বার প্রদান করুন',
+            'sscBatch.required'                     => 'আপনার এস.এস.সি ব্যাচ চিহ্নিত করুন',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect('/signUp')
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        $data=[
+            'name'                  => $request->name,
+            'sscBatch'              => $request->sscBatch,
+            'created_at'            => date('Y-m-d H:i:s'),
+            'created_by'            => NULL,
+            'created_ip'            => $request->ip(),
+        ];
+
+        $userInfo=[
+            'name'                  => $data['name'],
+            'mobile'                 => $request->email,
+            'email'                => $request->mobileNo,
+            'password'              => Hash::make($request->password),
+            'user_type'             => 10,
+            'created_at'            => date('Y-m-d H:i:s'),
+            'created_by'            => NULL,
+            'created_ip'            => $request->ip(),
+        ];
+
+        DB::beginTransaction();
+        try {
+            $userInfo           =   User::create($userInfo);
+            $data['user_id']    =   $userInfo->id;
+            RegistrationModels::create($data);
+            DB::commit();
+            $success_output = "Dear {$data['name']}, Thank you for your great generosity! We, at 'Ex. Student Forum of sheikh Mujib Hoque High School',  greatly appreciate your donation. Your support helps to succeed our mission. ";
+            Session::flash('message', $success_output);
+            return redirect('/admin/dashboard');
+        } catch (\Exception $e) {
+            DB::rollback();
+            $error = $e->getMessage();
+            Session::flash('message', $error);
+            return redirect('/signUp');
         }
     }
 
