@@ -125,10 +125,11 @@ class DashboardController extends Controller
         });
         $totalParticpantApproved=$participantApproved->count('*');
 
+        $userInfo           = Auth::user();
 
 
 
-        return view('admin.dashboard',compact('approvedAmount','pendingAmount','coOrdinatorWiseCurrentApprovdAmnt','batchWise','dateWise','userType','totalParticpant','participantYear','totalParticpantApproved','batchWiseBestAmount','expenseInfo'));
+        return view('admin.dashboard',compact('approvedAmount','pendingAmount','coOrdinatorWiseCurrentApprovdAmnt','batchWise','dateWise','userType','totalParticpant','participantYear','totalParticpantApproved','batchWiseBestAmount','expenseInfo','userInfo'));
 
     }
 }

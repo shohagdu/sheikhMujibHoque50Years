@@ -11,7 +11,7 @@ use Laravel\Sanctum\HasApiTokens;
 class RegistrationModels extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
-    protected $table = 'registrationRecord';
+    protected $table = 'registrationrecord';
 
     protected $fillable = [
         'user_id',
@@ -19,6 +19,10 @@ class RegistrationModels extends Authenticatable
         'sscBatch',
         'created_ip',
     ];
+
+    public static function generateApplicantSlNo($batch) {
+        return $batch.rand(99999,10000);
+    }
 
 
 

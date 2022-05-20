@@ -257,8 +257,8 @@ class HomeController extends Controller
 
         $userInfo=[
             'name'                  => $data['name'],
-            'mobile'                 => $request->email,
-            'email'                => $request->mobileNo,
+            'mobile'                => $request->email,
+            'email'                 => $request->mobileNo,
             'password'              => Hash::make($request->password),
             'user_type'             => 10,
             'created_at'            => date('Y-m-d H:i:s'),

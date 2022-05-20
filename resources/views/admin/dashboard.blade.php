@@ -493,6 +493,9 @@
                     </div>
                 @endif
 
+                @if(!empty($userType) && ($userType==10 ))
+                    @include('admin.registerApplicant.dashboard')
+                @endif
 
 
 

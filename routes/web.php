@@ -13,6 +13,7 @@ use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\ExpenseCtgController;
 use App\Http\Controllers\EventParticipantsController;
+use App\Http\Controllers\RegistrationController;
 
 // accounting transaction controller
 use App\Http\Controllers\Admin\accounting_transaction\CapitalInvestment;
@@ -127,7 +128,14 @@ Route::group(['prefix'=>'admin', 'middleware'=>'auth', 'namespace'=>'Admin'], fu
     Route::delete('participantsDelete/{id}', [EventParticipantsController::class, 'destroy'])->name('participantsDelete');
 
     Route::get('printParticipant/{sscBatch}', [EventParticipantsController::class,'printParticipant'])->name('printParticipant');
+
     Route::post('confirmToJoinUs', [EventParticipantsController::class,'confirmToJoinUs'])->name('confirmToJoinUs');
+
+    Route::get('confirmRegistration/{sscBatch}', [RegistrationController::class,'confirmRegistration'])->name('confirmRegistration');
+    Route::post('confirmRegistrationStore', [RegistrationController::class,'store'])->name('confirmRegistrationStore');
+
+
+
 
 
 
