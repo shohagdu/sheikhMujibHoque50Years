@@ -4,6 +4,9 @@
     <link rel="stylesheet" href="{{ URL::asset('backend/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}"/>
     <link rel="stylesheet" href="{{ URL::asset('backend/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}"/>
     <link rel="stylesheet" href="{{ URL::asset('backend/plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}"/>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 @endpush
 @php
     $userType               = (!empty(Auth::user()->user_type)?Auth::user()->user_type:'');
@@ -204,9 +207,16 @@
                                                     </tfoot>
                                                 </table>
                                             </div>
+                                            <div class=" text-center">
+                                                <button class="your-button-class" id="sslczPayBtn"
+                                                        token="if you have any token validation"
+                                                        postdata="your javascript arrays or objects which requires in backend"
+                                                        order="If you already have the transaction generated for current order"
+                                                        endpoint="{{ url('/pay-via-ajax') }}"> Pay Now
+                                                </button>
+                                            </div>
 
                                     </form>
-
 
                                 </div>
                             </div>
@@ -229,6 +239,43 @@
     <script src="{{ URL::asset('backend/plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
     <script src="{{ URL::asset('backend/plugins/datatables-buttons/js/dataTables.buttons.min.js') }}"></script>
     <script src="{{ URL::asset('backend/plugins/datatables-buttons/js/buttons.bootstrap4.min.js') }}"></script>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            crossorigin="anonymous"></script>
+@endpush
+@push('js_custom')
+    <script>
+        var obj = {};
+        obj.paymentID = '<?php echo Request::segment(3); ?>';
+        obj.paymentID = '<?php echo (!empty($applicantInfo->invoiceIDs)?$applicantInfo->invoiceIDs:'') ?>';
+        obj.transId = '<?php echo (!empty($applicantInfo->transId)?$applicantInfo->transId:'') ?>';
+        obj.invoiceId = '<?php echo (!empty($applicantInfo->invoiceId)?$applicantInfo->invoiceId:'') ?>';
+        obj.cus_name = '<?php echo (!empty($applicantInfo->name)?$applicantInfo->name:'') ?>';
+        obj.cus_phone = '<?php echo (!empty($applicantInfo->mobileNumber)?$applicantInfo->mobileNumber:'') ?>';
+        obj.cus_email = '<?php echo (!empty($applicantInfo->emailAddress)?$applicantInfo->emailAddress:'') ?>';
+        obj.cus_addr1 = '<?php echo (!empty($applicantInfo->address)?$applicantInfo->address:'') ?>';
+        obj.amount = '<?php echo (!empty($applicantInfo->netAmount)?$applicantInfo->netAmount:'') ?>';
+
+        $('#sslczPayBtn').prop('postdata', obj);
+
+        (function (window, document) {
+            var loader = function () {
+                var script = document.createElement("script"), tag = document.getElementsByTagName("script")[0];
+                // script.src = "https://seamless-epay.sslcommerz.com/embed.min.js?" + Math.random().toString(36).substring(7); // USE THIS FOR LIVE
+                script.src = "https://sandbox.sslcommerz.com/embed.min.js?" + Math.random().toString(36).substring(7); // USE THIS FOR SANDBOX
+                tag.parentNode.insertBefore(script, tag);
+            };
+
+            window.addEventListener ? window.addEventListener("load", loader, false) : window.attachEvent("onload", loader);
+        })(window, document);
+    </script>
 @endpush
 <style>
     .table td{

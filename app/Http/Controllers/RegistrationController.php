@@ -202,50 +202,9 @@ class RegistrationController extends Controller
     }
     public function waitingForPayment($invoiceID)
     {
-        $invoiceRecord      = [];
-        $guestInfo          = [];
-        $InvoiceInfo      = InvoiceInfosModel::select(
-            'invoice_infos.id as invoiceIDs',
-            'applicantId',
-            'applicantRegCrg',
-            'guestRegCrg',
-            'totalRegCrg',
-            'transactionPer',
-            'transactionFeesAmnt',
-            'netAmount',
-            'paidStatus',
-            'applyType',
-            'name',
-            'isFather',
-            'fatherHusbandName',
-            'tShirtSize',
-            'sscBatch',
-            'address',
-            'occupation',
-            'workPlace',
-            'membershipId',
-            'class_name',
-            'roll_no',
-            'gender',
-            'picture',
-            'gustCtg.title as applyTypeCtg',
-            'gustCtg.amount as applyTypeAmount',
-            'occupationInfo.title as occupationTitle',
-        )
-            ->leftJoin('registrationrecord as applicant', function($join) {
-                $join->on('applicant.id', '=', 'invoice_infos.applicantId')->where(["applicant.is_active"=>1]) ;
-            })
-            ->leftJoin('reg_rate_chart as gustCtg', function($join) {
-                $join->on('gustCtg.id', '=', 'applicant.applyType')->where(["gustCtg.is_active"=>1]) ;
-            })
-            ->leftJoin('all_settings as occupationInfo', function($join) {
-                $join->on('occupationInfo.id', '=', 'applicant.occupation')->where(["occupationInfo.is_active"=>1]) ;
-            })
 
-            ->where(['invoice_infos.id'=>$invoiceID,'isActive'=>1]);
-        if($InvoiceInfo->count()>0){
-            $invoiceRecord=$InvoiceInfo->first();
-        }
+        $guestInfo          = [];
+        $invoiceRecord      = InvoiceInfosModel::InvoiceWithAppInfo(['invoice_infos.id'=>$invoiceID,'invoice_infos.isActive'=>1]);
         if(!empty($invoiceRecord->applicantId)) {
             $guestInfo =
                 RegGuestInfosModel::select('reg_gust_infos.id','reg_gust_infos.ctg_id','reg_gust_infos.name','reg_gust_infos.mobile','reg_gust_infos.amount',"gustCtg.title as gustCtgTitle")
