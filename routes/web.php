@@ -131,8 +131,10 @@ Route::group(['prefix'=>'admin', 'middleware'=>'auth', 'namespace'=>'Admin'], fu
 
     Route::post('confirmToJoinUs', [EventParticipantsController::class,'confirmToJoinUs'])->name('confirmToJoinUs');
 
-    Route::get('confirmRegistration/{sscBatch}', [RegistrationController::class,'confirmRegistration'])->name('confirmRegistration');
+    Route::get('confirmRegistration/{appID}', [RegistrationController::class,'confirmRegistration'])->name('confirmRegistration');
+
     Route::post('confirmRegistrationStore', [RegistrationController::class,'store'])->name('confirmRegistrationStore');
+    Route::get('waitingForPayment/{appID}', [RegistrationController::class,'waitingForPayment'])->name('waitingForPayment');
 
 
 

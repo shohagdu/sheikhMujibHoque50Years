@@ -13,6 +13,9 @@
     $userInfo         = (!empty($data['userInfo'])?$data['userInfo']:'');
     $applicantApplyType= (!empty($data['applicantApplyType'])?$data['applicantApplyType']:'');
     $gustApplyType    = (!empty($data['gustApplyType'])?$data['gustApplyType']:'');
+    $tShirtSize=[
+        'S','M','L','XL','XXL'
+    ];
 @endphp
 @section('content')
     <!-- Main content -->
@@ -88,7 +91,28 @@
                                                 </select>
                                                 <div id="presentStudentApprovedMsg"></div>
                                             </div>
+
                                         </div>
+                                        <div class="form-group row">
+                                            <label class=" col-sm-2 text-center" for="gender">ছবি</label>
+                                            <div class="col-sm-4">
+                                                <input type="file" name="picture" id="picture" class="form-control">
+                                            </div>
+                                            <label class=" col-sm-2 text-center" for="tShirtSize">ড্রেস সাইজ
+                                                (টিশার্ট)</label>
+                                            <div class="col-sm-4">
+                                                <select name="tShirtSize" id="tShirtSize" class="form-control">
+                                                    <option value="">টিশার্ট এর সাইজ চিহ্নিত করুন</option>
+                                                    @if(!empty($tShirtSize))
+                                                        @foreach($tShirtSize as $tSizeKey=> $tSize)
+                                                            <option value="{{ $tSize }}">{{ $tSize  }}</option>
+                                                        @endforeach
+                                                    @endif
+                                                </select>
+                                            </div>
+                                            <div id="presentStudentApprovedMsg"></div>
+                                        </div>
+
                                         <div class="form-group row">
                                             <label class=" col-sm-2 text-center" for="gender">পিতা/স্বামীর নাম</label>
                                             <div class="col-sm-2">
@@ -378,7 +402,8 @@
                var applyTypeAmnt = '0.00';
                $("#presentStudentApprovedMsg").html('যেহেতু আপনি "সদস্য ধরন বর্তমান শিক্ষার্থী" চিহ্নিত করেছেন।  ' +
                    'কতৃপক্ষের Approved করার মাধ্যমে আপনার আবেদন প্রক্রিয়া সম্পন্ন হবে');
-                $("#presentStudentApprovedMsg").css({"color":"darkred","font-weight":"bold","margin-top":"8px"});
+                $("#presentStudentApprovedMsg").css({"color":"red","font-weight":"bold","margin-top":"8px",
+                    "text-align":"center"});
                 $(".runningStudent").show();
             }else if(applyTypeID==1 || applyTypeID==3){
                 var applyTypeAmnt = '500.00';
@@ -406,6 +431,9 @@
                     if(data.success){
                         toastr.success(data.success);
                         console.log(data);
+                        setTimeout(function(){
+                            window.location = base_url +data.redirectTo;
+                        },1500);
                     } else{
                         if (data.error.length > 0) {
                             var error_html = '';
