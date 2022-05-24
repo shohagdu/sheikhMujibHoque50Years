@@ -11,6 +11,7 @@ use App\Models\InvoiceInfosModel;
 use App\Models\RegGuestInfosModel;
 use Auth;
 use Illuminate\Support\Facades\Validator;
+use Intervention\Image\ImageManagerStatic as Image;
 use Toastr;
 use DB;
 
@@ -50,20 +51,33 @@ class RegistrationController extends Controller
         $userType=(!empty(Auth::user()->user_type)?Auth::user()->user_type:'');
 
         $validator = Validator::make($request->all(), [
-            'applyType'              => ['required'],
-            'gender'              => ['required'],
+            'applyType'                     => 'required',
+            'gender'                        => 'required',
+            'fatherHusbandName'             => 'required',
+            'class_name'                    => '[required_if:applyType,2]',
+            'roll_no'                       => '[required_if:applyType,2]',
+
+          //  'occupation'                    => 'required_if:applyType,1',
+          //  'workPlace'                     => 'required_if:applyType,1',
+
+
+
 
         ],[
-            'applyType.required'                 => 'সদস্য ধরন চিহ্নিত করুন',
+            'applyType.required'                => 'সদস্য ধরন চিহ্নিত করুন',
             'gender.required'                   => 'লিংঙ্গ চিহ্নিত করুন',
-            'currentProfession.required'        => 'The Current Profession is required',
+            'fatherHusbandName.required'        => 'পিতা/স্বামীর নাম প্রদান করুন',
+            'class_name.required_if'            => 'শ্রেণী চিহ্নিত করুন',
+            'roll_no.required_if'               => 'রোল নং প্রদান করুন',
+
+            'occupation.required_if'            => 'পেশা চিহ্নিত করুন',
+            'workPlace.required_if'             => 'কর্মস্থল এর তথ্য প্রদান করুন ',
         ]);
         $error_array=array();
         if ($validator->fails()) {
             foreach ($validator->messages()->getMessages() as $field_name => $messages) {
                 $error_array[] = $messages;
             }
-
             $response = ['error'=> $error_array];
             return response()->json($response);
         }
@@ -92,6 +106,17 @@ class RegistrationController extends Controller
                 $file_name = "profile_" .time() .'.' . $extension;
                 $image->getClientOriginalName();
                 $image->move($destinationImagePath, $file_name);
+                $image = Image::make($destinationImagePath . "/" . $file_name);
+                $x = $image->width();
+                $y = $image->height();
+                if ($x > 300 || $y > 300) {
+                    if ($x > $y) {
+                        $image->resize(300, ($y / $x) * 300);
+                    } else {
+                        $image->resize(($x / $y) * 300, 300);
+                    }
+                }
+                $image->save($destinationImagePath . "/" . $file_name);
                 $picture = $destinationImagePath . '/' . $file_name;
             } else {
                 $picture = '';
@@ -118,7 +143,6 @@ class RegistrationController extends Controller
                     'workPlace'             => $request->currentProfessionDetails,
                     'tShirtSize'            => $request->tShirtSize,
                     'picture'               => $picture,
-                    'approved_status'       => 2,
                     'class_name'            => $request->className,
                     'roll_no'               =>$request->rollNo,
                     'is_active'             => 1,
@@ -168,13 +192,22 @@ class RegistrationController extends Controller
 
                     }
                 }
-
-                //  dd($gustInfo);
-                RegistrationModels::where('id',$applicantInfo->id)->update($dataArray);
-             //   dd($invInfo);
+                // Invoice
                 $invoiceId = DB::table('invoice_infos')->insertGetId($invInfo);
-//                $invoiceInfo= InvoiceInfosModel ::create($invInfo);
-//                $invoiceId = $invoiceInfo->id;
+                if($request->netFeeAmnt<=0 && $request->applyType==2 ) {
+                    $dataArray['approved_status'] = 3;
+                    $dataArray['hasFamilyMember'] = 1;
+                    $dataArray['paidInvoiceId'] = $invoiceId;
+                }elseif($request->netFeeAmnt > 0 && $request->applyType==2 ) {
+                    $dataArray['approved_status'] = 2;
+                    $dataArray['hasFamilyMember'] = 2;
+                }else{
+                    $dataArray['approved_status'] = 2;
+                }
+                // Applicant
+                RegistrationModels::where('id',$applicantInfo->id)->update($dataArray);
+
+                // Guest Information
                 if(!empty($gustInfo)) {
                     RegGuestInfosModel::insert($gustInfo);
                 }

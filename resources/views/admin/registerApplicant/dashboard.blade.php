@@ -6,7 +6,9 @@
     <div class="card-body">
         <div class="row">
             <div class="col-md-4 text-center">
-                <img src="{{ url('backend/images/avatar.jpg') }}" style="height: 200px">
+                <img src="{{ (file_exists($applicantInfo->picture))?url(
+                                                $applicantInfo->picture):url
+                                                ('backend/images/avatar.jpg') }}" style="height: 200px">
             </div>
             <div class="col-md-8">
                 <div class="d-flex  align-items-center border-bottom mb-3">
@@ -44,9 +46,50 @@
                     </p>
                 </div>
             </div>
-            <div class="col-sm-12 text-center">
-                <a href="{{ url('admin/confirmRegistration/'.$userInfo->id) }}" class="btn btn-success btn-lg
-                text-center"><i class="fa  fa-angle-right"></i> Payment  Now</a>
+            <div class="col-sm-12 text-center" style="margin-top:20px">
+{{--                {{ dd($applicantInfo) }}--}}
+                @if(!empty($applicantInfo->approved_status) && $applicantInfo->approved_status==1)
+                    <div class="alert alert-info" role="alert">
+                        আপনার প্রাথমিক রেজিস্ট্রেশন সম্পন্ন হয়েছে।  আপনার কিছু তথ্য প্রদান করে পেমেন্ট
+                        প্রক্রিয়া সম্পন্ন করতে হবে। পেমেন্ট প্রক্রিয়া সম্পন্ন করতে নিচের "Registration Confirm" বাটনে
+                        ক্লিক করুন
+                    </div>
+                    <a href="{{ url('admin/confirmRegistration/'.$userInfo->id) }}" class="btn btn-success btn-lg  text-center"> Registration Confirm <i class="fa  fa-angle-right"></i></a>
+                @elseif(!empty($applicantInfo->approved_status) && $applicantInfo->approved_status==2)
+                    <div class="alert alert-primary" role="alert">
+                        আপনার Invoice Generate সম্পন্ন হয়েছে।  আপনাকে পেমেন্ট
+                        প্রক্রিয়া সম্পন্ন করতে হবে। পেমেন্ট প্রক্রিয়া পুরোপুরি সম্পন্ন করতে নিচের "Payment Confirm"
+                        বাটনে
+                        ক্লিক করুন
+                    </div>
+                    <a href="{{ url('admin/waitingForPayment/'.$applicantInfo->invoiceIDs) }}" class="btn btn-success
+                     btn-lg  text-center"> Payment Confirm <i class="fa  fa-angle-right"></i></a>
+                @elseif(!empty($applicantInfo->approved_status) && $applicantInfo->approved_status==3)
+                    <hr/>
+
+                    @if(!empty($applicantInfo->applyType) && $applicantInfo->applyType==1 ||
+                    $applicantInfo->applyType==3 )
+                        <h4 class=" text-center font-weight-bold" style="color:green">ধন্যবাদ, আপনার পেমেন্ট
+                            প্রক্রিয়া সফলতার সাথে সম্পন্ন  হয়েছে। অনুষ্ঠান সম্পর্কে খুব শ্রীঘ্রই আপডেট পাবেন।
+                        </h4>
+                    @elseif(!empty($applicantInfo->applyType) && $applicantInfo->applyType==2 )
+
+                        @if(!empty($applicantInfo->isApprovedAuthority) && $applicantInfo->isApprovedAuthority==1)
+                            <h4 class=" text-center font-weight-bold" style="color:green">আপনি বর্তমান শিক্ষার্থী
+                                ক্যাটাগরিতে আবেদন করেছেন। আপনার আবেদনটি এখনও Approved করা হয় নি।
+                                কর্তৃপক্ষ খুব  শ্রীঘ্রই  আপনার আবেদনটি  Approved করা হবে।</h4>
+                        @elseif(!empty($applicantInfo->isApprovedAuthority) && $applicantInfo->isApprovedAuthority==2)
+                            <h4 class=" text-center font-weight-bold" style="color:green">ধন্যবাদ, আবেদনটি  Approved
+                                করা হয়েছে। অনুষ্ঠান সম্পর্কে খুব শ্রীঘ্রই আপডেট পাবেন। </h4>
+                        @else
+
+                        @endif
+                    @else
+
+                    @endif
+                @else
+
+                @endif
             </div>
         </div>
 

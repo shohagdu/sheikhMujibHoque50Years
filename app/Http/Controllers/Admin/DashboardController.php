@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Models\DonarInfo;
 use App\Models\EventParticipantsModel;
 use App\Models\TransactionModel;
+use App\Models\RegistrationModels;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
@@ -126,10 +127,10 @@ class DashboardController extends Controller
         $totalParticpantApproved=$participantApproved->count('*');
 
         $userInfo           = Auth::user();
+        $applicantInfo  = RegistrationModels::applicantInfo(['user_id'=>$userInfo->id]);
 
 
-
-        return view('admin.dashboard',compact('approvedAmount','pendingAmount','coOrdinatorWiseCurrentApprovdAmnt','batchWise','dateWise','userType','totalParticpant','participantYear','totalParticpantApproved','batchWiseBestAmount','expenseInfo','userInfo'));
+        return view('admin.dashboard',compact('approvedAmount','pendingAmount','coOrdinatorWiseCurrentApprovdAmnt','batchWise','dateWise','userType','totalParticpant','participantYear','totalParticpantApproved','batchWiseBestAmount','expenseInfo','userInfo','applicantInfo'));
 
     }
 }

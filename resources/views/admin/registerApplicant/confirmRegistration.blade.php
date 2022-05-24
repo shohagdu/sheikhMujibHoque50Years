@@ -41,10 +41,10 @@
 
                                     <form  action="" id="confirmRegistrationForm" class="form-horizontal" method="post">
                                         <div class="col-sm-12 row">
-                                            <div class="col-sm-3 text-center">
+                                            <div class="col-sm-3 text-center" id="img_div">
                                                 <img src="{{ url('backend/images/avatar.jpg') }}" class="img-thumbnail"
                                                      style="height:
-                                                130px">
+                                                130px" id="img_id">
                                             </div>
                                             <div class="col-sm-8">
                                                 <div class="form-group row">
@@ -96,7 +96,8 @@
                                         <div class="form-group row">
                                             <label class=" col-sm-2 text-center" for="gender">ছবি</label>
                                             <div class="col-sm-4">
-                                                <input type="file" name="picture" id="picture" class="form-control">
+                                                <input type="file" name="picture" id="picture" class="form-control" accept="image/jpeg, image/jpg, image/png"
+                                                       onchange="LoadFile(event);">
                                             </div>
                                             <label class=" col-sm-2 text-center" for="tShirtSize">ড্রেস সাইজ
                                                 (টিশার্ট)</label>
@@ -280,10 +281,10 @@
 
 
                                         <div class="form-group row">
-                                            <div class="col-sm-3">
+                                            <div class="col-sm-4">
                                                 <div id="formOutput"></div>
                                             </div>
-                                            <div class="col-sm-8">
+                                            <div class="col-sm-4">
                                                 <input type="hidden" value="{{ (!empty($applicantInfo->id)
                                                 ?$applicantInfo->id:'') }}"
                                                        name="appID" id="appID">
@@ -292,11 +293,10 @@
                                                        name="userID" id="userID">
 
                                                 <input type="hidden" name="update_id" id="update_id">
-                                                <button type="submit" class="btn btn-primary submit_btn" > <i
+                                                <button type="submit" class="btn btn-success submit_btn btn-lg
+                                                btn-block"
+                                                > <i
                                                         class="fa fa-address-book" aria-hidden="true"></i> Save</button>
-                                                <a href="{{ url('admin/dashboard') }}" class="btn btn-danger" data-dismiss="modal"><i
-                                                        class="fa
-                                fa-backward" aria-hidden="true"></i> Back</a>
                                             </div>
                                         </div>
 
@@ -385,10 +385,11 @@
                 var applicantRegAmnt            = parseFloat($("#applicantRegAmnt").val());
                 var applicantWithGustAmnt       = (row_total+applicantRegAmnt);
                 var transactionFees             = ((transactionPercentage/100)*applicantWithGustAmnt);
-
+                var transFees                   = ((transactionPercentage/100)*transactionFees)
+                var tProcessingFees             =  Math.ceil(transactionFees+transFees);
                 $("#applicantGuestAmnt").val(applicantWithGustAmnt.toFixed(2));
-                $("#onlineTransFeeAmnt").val(transactionFees.toFixed(2));
-                $("#netFeeAmnt").val((row_total+applicantRegAmnt+transactionFees).toFixed(2));
+                $("#onlineTransFeeAmnt").val(tProcessingFees.toFixed(2));
+                $("#netFeeAmnt").val((row_total+applicantRegAmnt+tProcessingFees).toFixed(2));
         }
 
 
@@ -414,7 +415,7 @@
         });
 
         $("#confirmRegistrationForm").on('submit', (function (e) {
-            //$(".submit_btn").attr("disabled", true);
+            $(".submit_btn").attr("disabled", true);
             var formData = new FormData(this)
 
             e.preventDefault();
@@ -450,6 +451,12 @@
                 }
             });
         }));
+
+        var LoadFile = function (event) {
+            var output = document.getElementById("img_id");
+            document.getElementById("img_div").style.display = "block";
+            output.src = URL.createObjectURL(event.target.files[0]);
+        }
 
     </script>
 @endpush

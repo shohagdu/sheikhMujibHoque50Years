@@ -38,6 +38,7 @@ class InvoiceInfosModel extends Authenticatable
             'netAmount',
             'paidStatus',
             'applyType',
+            'applicant.isApprovedAuthority',
             'applicant.name',
             'isFather',
             'fatherHusbandName',

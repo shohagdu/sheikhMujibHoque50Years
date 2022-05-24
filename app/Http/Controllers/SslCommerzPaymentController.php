@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\InvoiceInfosModel;
+use App\Models\SmsHistory;
 use DB;
 use Illuminate\Http\Request;
 use App\Library\SslCommerz\SslCommerzNotification;
 use Auth;
+use Session;
+use Illuminate\Support\Facades\Redirect;
 
 class SslCommerzPaymentController extends Controller
 {
@@ -154,6 +157,7 @@ class SslCommerzPaymentController extends Controller
 
     public function success(Request $request)
     {
+        //dd(url()->previous());
         echo "Transaction is Successful";
         $response       = (!empty($request->all())?$request->all():'');
         $tran_id        = (!empty($response['tran_id'])?$response['tran_id']:'');
@@ -177,16 +181,17 @@ class SslCommerzPaymentController extends Controller
         $invData['updated_ip']              = $request->ip();
 
         $invoiceRecord  = InvoiceInfosModel::InvoiceWithAppInfo(['invoice_infos.transId'=>$tran_id,'invoice_infos.invoiceId'=>$invoiceID,'invoice_infos.netAmount'=>$amount]);
-
+       // dd($invoiceRecord);
         $sslc = new SslCommerzNotification();
         #Check order status in order table against the transaction id or order id.
-        $where=[
+
+        if (!empty($invoiceRecord) && $invoiceRecord->paidStatus == 1) { // Pending
+            $where=[
                 'invoice_infos.id'              =>$invoiceRecord->invoiceIDs,
                 'invoice_infos.transId'         =>$invoiceRecord->transId,
                 'invoice_infos.invoiceId'       =>$invoiceRecord->invoiceId,
                 'invoice_infos.netAmount'       =>$invoiceRecord->netAmount
             ];
-        if (!empty($invoiceRecord) && $invoiceRecord->paidStatus == 1) { // Pending
             $validation = $sslc->orderValidate($request->all(), $tran_id, $amount, $currency);
             if ($validation == TRUE) {
                 /*
@@ -199,6 +204,32 @@ class SslCommerzPaymentController extends Controller
                  DB::table('invoice_infos')
                     ->where($where)
                     ->update($invData);
+
+
+                 $applicantInfo=[
+                    'approved_status'           =>  3,
+                    'paidInvoiceId'             =>  $invoiceRecord->invoiceIDs,
+                    'updated_at'                =>  date('Y-m-d H:i:s'),
+                    'updated_by'                =>  Auth::id(),
+                    'updated_ip'                =>  $request->ip(),
+                 ];
+                 DB::table('registrationrecord')
+                    ->where(['id'   =>  $invoiceRecord->applicantId,'is_active'=>1])
+                    ->update($applicantInfo);
+
+
+
+                $sms ="Dear {$invoiceRecord->name}, We, at '50 Years Celebration of Sheikh Mujibal Hoque High School',  greatly appreciate your participation. Your participation amount {$invoiceRecord->totalRegCrg} has been successfully received. ";
+                $smsHistory=[
+                    'donar_id'         => $invoiceRecord->applicantId,
+                    'mobile_number'    => (!empty($invoiceRecord->mobileNumber)? substr($invoiceRecord->mobileNumber, -11):''),
+                    'msg'              => $sms,
+                    'send_status'      => 1,
+                    'ins_date'         => date('Y-m-d H:i:s'),
+                    'ins_by'           => Auth::id()
+                ];
+                SmsHistory::create($smsHistory);
+
 
                 echo "<br >Transaction is successfully Completed";
             } else {
@@ -222,8 +253,18 @@ class SslCommerzPaymentController extends Controller
             #That means something wrong happened. You can redirect customer to your product page.
             echo "Invalid Transaction";
         }
-       // return redirect('admin/dashboard');
-
+//        return Redirect::intended('admin/dashboard');
+//        $credentials = [
+//            'email'         => '01521572228',
+//            'password'      => '$2y$10$ik0uHYZ4ebMmOBnEh16wLexLZ2Fxfi3gT0s.TWYK3cDNtx2ZL1mT6'
+//        ];
+//        dd($credentials);
+//        if (Auth::attempt($credentials)) {
+//            dd(Auth::user());
+//            return Redirect::to('admin/dashboard');
+//        }
+//
+//        return Redirect::to('login')->with_input();
 
     }
 

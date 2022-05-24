@@ -43,6 +43,33 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-sm-12">
+{{--                                    {{ dd($applicantInfo) }}--}}
+                                    @if(!empty($applicantInfo->applyType) && $applicantInfo->applyType==2 &&
+                                    $applicantInfo->netAmount<=0 )
+
+                                        @if(!empty($applicantInfo->isApprovedAuthority) && $applicantInfo->isApprovedAuthority==1)
+                                            <h4 class=" text-center font-weight-bold" style="color:green">আপনি বর্তমান শিক্ষার্থী
+                                                ক্যাটাগরিতে আবেদন করেছেন। আপনার আবেদনটি এখনও Approved করা হয় নি।
+                                                কর্তৃপক্ষ খুব  শ্রীঘ্রই  আপনার আবেদনটি  Approved করা হবে।</h4>
+                                        @elseif(!empty($applicantInfo->isApprovedAuthority) && $applicantInfo->isApprovedAuthority==1)
+                                            <h4 class=" text-center font-weight-bold" style="color:green">ধন্যবাদ, আবেদনটি  Approved
+                                                করা হয়েছে। অনুষ্ঠান সম্পর্কে খুব শ্রীঘ্রই আপডেট পাবেন। </h4>
+                                        @else
+
+                                        @endif
+                                        <div class="text-center">
+                                            <a href="{{ url('admin/dashboard/') }}" class="btn btn-warning btn-lg
+                                        text-center"><i class="fa  fa-angle-left"></i> Back to Dashboard </a>
+                                        </div>
+                                    @else
+                                    <h5 class="text-center color-red font-weight-bold">আপনার তথ্য গুলো যাচাই করার পর নিচের <span
+                                        class="color-green">PAY NOW </span>বাটনে
+                                        ক্লিক করার
+                                        মাধ্যমে
+                                        আপনার
+                                        রেজিস্ট্রেশন প্রক্রিয়া সম্পন্ন করুন</h5>
+                                    @endif
+                                    <hr/>
                                     <form  action="" id="confirmRegistrationForm" class="form-horizontal" method="post">
                                         <div class="col-sm-12 row">
                                             <div class="col-sm-3 text-center">
@@ -208,12 +235,16 @@
                                                 </table>
                                             </div>
                                             <div class=" text-center">
-                                                <button class="your-button-class" id="sslczPayBtn"
-                                                        token="if you have any token validation"
-                                                        postdata="your javascript arrays or objects which requires in backend"
-                                                        order="If you already have the transaction generated for current order"
-                                                        endpoint="{{ url('/pay-via-ajax') }}"> Pay Now
-                                                </button>
+                                                @if(!empty($applicantInfo->paidStatus) &&
+                                                $applicantInfo->paidStatus==1 &&
+                                    $applicantInfo->netAmount > 0 )
+                                                    <button class="your-button-class" id="sslczPayBtn"
+                                                            token="if you have any token validation"
+                                                            postdata="your javascript arrays or objects which requires in backend"
+                                                            order="If you already have the transaction generated for current order"
+                                                            endpoint="{{ url('/pay-via-ajax') }}"> Pay Now
+                                                    </button>
+                                                @endif
                                             </div>
 
                                     </form>
