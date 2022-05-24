@@ -57,6 +57,7 @@ class InvoiceInfosModel extends Authenticatable
             'occupationInfo.title as occupationTitle',
             'u.email as mobileNumber',
             'u.mobile as emailAddress',
+            'u.id as userID',
         )
             ->leftJoin('registrationrecord as applicant', function($join) {
                 $join->on('applicant.id', '=', 'invoice_infos.applicantId')->where(["applicant.is_active"=>1]) ;

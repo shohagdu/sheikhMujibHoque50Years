@@ -193,7 +193,16 @@ class RegistrationController extends Controller
                     }
                 }
                 // Invoice
-                $invoiceId = DB::table('invoice_infos')->insertGetId($invInfo);
+                $invoiceExist=InvoiceInfosModel::where(['applicantId'=>$applicantInfo->id,'isActive'=>1,'paidStatus'=>1]);
+                if($invoiceExist->count()>0){
+                    $invoiceData=$invoiceExist->first();
+                    $invoiceId=$invoiceData->id;
+                    DB::table('invoice_infos')->where(['id'=>$invoiceId,'applicantId'=>$applicantInfo->id])->update
+                    ($invInfo);
+                }else {
+                    $invoiceId = DB::table('invoice_infos')->insertGetId($invInfo);
+                }
+
                 if($request->netFeeAmnt<=0 && $request->applyType==2 ) {
                     $dataArray['approved_status'] = 3;
                     $dataArray['hasFamilyMember'] = 1;

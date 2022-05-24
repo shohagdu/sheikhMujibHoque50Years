@@ -221,12 +221,12 @@ class SslCommerzPaymentController extends Controller
 
                 $sms ="Dear {$invoiceRecord->name}, We, at '50 Years Celebration of Sheikh Mujibal Hoque High School',  greatly appreciate your participation. Your participation amount {$invoiceRecord->totalRegCrg} has been successfully received. ";
                 $smsHistory=[
-                    'donar_id'         => $invoiceRecord->applicantId,
+                    'donar_id'         => (!empty($invoiceRecord->userID)?$invoiceRecord->userID:''),
                     'mobile_number'    => (!empty($invoiceRecord->mobileNumber)? substr($invoiceRecord->mobileNumber, -11):''),
                     'msg'              => $sms,
                     'send_status'      => 1,
                     'ins_date'         => date('Y-m-d H:i:s'),
-                    'ins_by'           => Auth::id()
+                    'ins_by'           => NULL
                 ];
                 SmsHistory::create($smsHistory);
 
