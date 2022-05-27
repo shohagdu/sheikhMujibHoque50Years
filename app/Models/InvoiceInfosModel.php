@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use DB;
 
 class InvoiceInfosModel extends Authenticatable
 {
@@ -79,6 +80,80 @@ class InvoiceInfosModel extends Authenticatable
             return false;
         }
     }
+    public static function receivedAmntInfo($where) {
+        $query    =    InvoiceInfosModel:: where(['isActive'=>1])
+        ->join('registrationrecord as applicant', function($join) {
+            $join->on('applicant.id', '=', 'invoice_infos.applicantId')->where(["applicant.is_active"=>1]) ;
+        })
+            ->join('users as u', function($join) {
+                $join->on('u.id', '=', 'applicant.user_id') ;
+            });
+        if(!empty($where)) {
+            $query->where($where);
+        }
+        return $query->sum('store_amount');
+    }
+    public static function receivedCtgInfo($where) {
+        $query    =    InvoiceInfosModel::selectRaw('applyType,Count(applicant.id) as applyParticipator, SUM(store_amount) AS
+        paymentGetwayRecivedAmnt')-> where(['isActive'=>1])
+        ->join('registrationrecord as applicant', function($join) {
+            $join->on('applicant.id', '=', 'invoice_infos.applicantId')->where(["applicant.is_active"=>1]) ;
+        })->join('users as u', function($join) {
+                $join->on('u.id', '=', 'applicant.user_id') ;
+            });
+        if(!empty($where)) {
+            $query->where($where);
+        }
+        $query->groupBy('applicant.applyType');
+        return $query->get();
+    }
+
+    public static function batchWiseReceivedAmnt($where) {
+        $query    =    InvoiceInfosModel::selectRaw('sscBatch,Count(applicant.id) as applyParticipator, SUM(store_amount) AS
+        paymentGetwayRecivedAmnt')-> where(['isActive'=>1])
+            ->join('registrationrecord as applicant', function($join) {
+                $join->on('applicant.id', '=', 'invoice_infos.applicantId')->where(["applicant.is_active"=>1]) ;
+            })->join('users as u', function($join) {
+                $join->on('u.id', '=', 'applicant.user_id') ;
+            });
+        if(!empty($where)) {
+            $query->where($where);
+        }
+        $query->groupBy('applicant.sscBatch');
+        return $query->get();
+    }
+    public static function bestBatchWiseReceivedAmnt($where) {
+        $query    =    InvoiceInfosModel::selectRaw('sscBatch,Count(applicant.id) as applyParticipator, SUM(store_amount) AS
+        paymentGetwayRecivedAmnt')-> where(['isActive'=>1])
+            ->join('registrationrecord as applicant', function($join) {
+                $join->on('applicant.id', '=', 'invoice_infos.applicantId')->where(["applicant.is_active"=>1]) ;
+            })->join('users as u', function($join) {
+                $join->on('u.id', '=', 'applicant.user_id') ;
+            });
+        if(!empty($where)) {
+            $query->where($where);
+        }
+        $query->orderBy('paymentGetwayRecivedAmnt',"DESC");
+        $query->groupBy('applicant.sscBatch');
+        return $query->get();
+    }
+    public static function dateReceivedAmnt($where) {
+        $query    =    InvoiceInfosModel::select(DB::raw('DATE_FORMAT(tran_date, "%d %b, %Y") as receivedDate'))
+            ->selectRaw('SUM(store_amount) AS paymentGetwayRvdAmnt,Count(applicant.id) as applyParticipator')-> where(['isActive'=>1])
+            ->join('registrationrecord as applicant', function($join) {
+                $join->on('applicant.id', '=', 'invoice_infos.applicantId')->where(["applicant.is_active"=>1]) ;
+            })->join('users as u', function($join) {
+                $join->on('u.id', '=', 'applicant.user_id') ;
+            });
+        if(!empty($where)) {
+            $query->where($where);
+        }
+        $query->groupBy(DB::raw('DATE(tran_date)'))->orderBy('tran_date','ASC')->having('paymentGetwayRvdAmnt','>',0)
+            ->get();
+        return $query->get();
+
+    }
+
 
 
 

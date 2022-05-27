@@ -54,6 +54,7 @@ class RegistrationController extends Controller
             'applyType'                     => 'required',
             'gender'                        => 'required',
             'fatherHusbandName'             => 'required',
+            'tShirtSize'                    => 'required',
             'class_name'                    => '[required_if:applyType,2]',
             'roll_no'                       => '[required_if:applyType,2]',
 
@@ -72,6 +73,7 @@ class RegistrationController extends Controller
 
             'occupation.required_if'            => 'পেশা চিহ্নিত করুন',
             'workPlace.required_if'             => 'কর্মস্থল এর তথ্য প্রদান করুন ',
+            'tShirtSize.required_if'             => 'টিশার্ট এর সাইজ চিহ্নিত করুন ',
         ]);
         $error_array=array();
         if ($validator->fails()) {
@@ -125,6 +127,11 @@ class RegistrationController extends Controller
             $picture = $request->imageOld;
         } else {
             $picture = '';
+        }
+        if(empty($picture)){
+            $error_array[]      = 'আপনার ছবি আপলোড করুন';
+            $response = ['error'=> $error_array];
+            return response()->json($response);
         }
 
         if(empty($request->update_id)) {

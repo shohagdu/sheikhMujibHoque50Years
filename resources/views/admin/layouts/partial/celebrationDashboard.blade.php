@@ -9,12 +9,23 @@
     $totalAmountBatch      = 0;
     $totalparticipate      = 0;
 
-    $iDate                  = 1;
+
     $totalAmountDate        = 0;
     $iBestBatch             = 1;
 
     $iExpense               = 1;
     $totalExpenseAmount     = 0;
+
+    $totalPaymentReceived       = 0;
+    $totalApplyParticipator     = 0;
+
+    $bestBatchSn                            = 1;
+    $totalBestBatch                         = 0;
+    $totalBestBatchApplyParticipator        = 0;
+
+    $iDate                                  = 1;
+    $totalDateParticipator                  = 0;
+    $totalAmountDate                        = 0;
 @endphp
 <div class="row">
     <div class="col-lg-3 col-6">
@@ -68,19 +79,17 @@
             </thead>
             <tbody>
 
-            @if(!empty($coOrdinatorWiseCurrentApprovdAmnt))
-                @foreach($coOrdinatorWiseCurrentApprovdAmnt as $coOrdinatorInfo)
-                    @php($totalAmountCordinator+=$coOrdinatorInfo->ApprovedAmnt)
-                    @php($pendingAmount+=$coOrdinatorInfo->pendingAmnt)
+            @if(!empty($receivedCtgInfo))
+                @foreach($receivedCtgInfo as $recivedGetway)
+                    @php($totalPaymentReceived+=$recivedGetway->paymentGetwayRecivedAmnt)
                     <tr>
                         <td>{{ $i++ }}</td>
-                        <td>{{ (!empty($coOrdinatorInfo->userName)?$coOrdinatorInfo->userName:'')
+                        <td>{{ (!empty($applicantApplyType[$recivedGetway->applyType])
+                        ?$applicantApplyType[$recivedGetway->applyType]:'')
                                                 }}</td>
-                        <td class="text-center">{{ (!empty($coOrdinatorInfo->mobileBankBkash)
-                                                ?$coOrdinatorInfo->mobileBankBkash:'-')
-                                                }}</td>
-                        <th  class="text-right">{{ (!empty($coOrdinatorInfo->ApprovedAmnt)
-                                                ?number_format($coOrdinatorInfo->ApprovedAmnt,2):'0.00')
+                        <td class="text-center">{{ (!empty($recivedGetway->applyParticipator) ?$recivedGetway->applyParticipator:'-') }}</td>
+                        <th  class="text-right">{{ (!empty($recivedGetway->paymentGetwayRecivedAmnt)
+                                                ?number_format($recivedGetway->paymentGetwayRecivedAmnt,2):'0.00')
                                                 }}</th>
 
                     </tr>
@@ -89,8 +98,8 @@
             </tbody>
             <tfoot>
                 <tr>
-                    <th class="text-center" colspan="3">Total Collection Amount</th>
-                    <th class="text-right" >{{ (!empty($totalAmountCordinator)?number_format($totalAmountCordinator,2):'0.00') }}</th>
+                    <th class="text-center" colspan="3">Total Collection Amount (Payment getway)</th>
+                    <th class="text-right" >{{ (!empty($totalPaymentReceived)?$totalPaymentReceived:'0.00') }}</th>
 
                 </tr>
             </tfoot>
@@ -126,20 +135,20 @@
                     </thead>
                     <tbody>
 
-                    @if(!empty($batchWise))
-                        @foreach($batchWise as $batch)
-                            @php($totalAmount += $batch->ApprovedAmnt)
-                            @php($totalApprovedParticipatent += $batch->ApprovedParticipatent)
+                    @if(!empty($batchWiseReceivedAmnt))
+                        @foreach($batchWiseReceivedAmnt as $batch)
+                            @php($totalAmount             += $batch->paymentGetwayRecivedAmnt)
+                            @php($totalApplyParticipator  += $batch->applyParticipator)
                             <tr>
                                 <td>{{ $iBatch++ }}</td>
                                 <td>{{ (!empty($batch->sscBatch)?$batch->sscBatch:'')
                                                     }}</td>
-                                <td class="text-center">{{ (!empty($batch->ApprovedParticipatent)
-                                                ?$batch->ApprovedParticipatent:'')
+                                <td class="text-center">{{ (!empty($batch->applyParticipator)
+                                                ?$batch->applyParticipator:'')
                                                     }}</td>
 
-                                <th  class="text-right">{{ (!empty($batch->ApprovedAmnt)
-                                                    ?number_format($batch->ApprovedAmnt,2):'0.00')
+                                <th  class="text-right">{{ (!empty($batch->paymentGetwayRecivedAmnt)
+                                                    ?number_format($batch->paymentGetwayRecivedAmnt,2):'0.00')
                                                     }}</th>
 
                             </tr>
@@ -147,15 +156,12 @@
                     @endif
                     </tbody>
                     <tfoot>
-                    <tr>
-                        <th class="text-center" colspan="2">Total  Amount</th>
-                        <th class="text-center" >{{ (!empty($totalApprovedParticipatent)
-                                        ?$totalApprovedParticipatent:'0
-                                            ') }}</th>
-                        <th class="text-right" >{{ (!empty($totalAmount)?number_format($totalAmount,2):'0
-                                            .00') }}</th>
+                        <tr>
+                            <th class="text-center" colspan="2">Total  Amount</th>
+                            <th class="text-center" >{{ (!empty($totalApplyParticipator)?$totalApplyParticipator:'0') }}</th>
+                            <th class="text-right" >{{ (!empty($totalAmount)?number_format($totalAmount,2):'0.00') }}</th>
 
-                    </tr>
+                        </tr>
                     </tfoot>
 
                 </table>
@@ -190,20 +196,20 @@
                     </thead>
                     <tbody>
 
-                    @if(!empty($batchWise))
-                        @foreach($batchWise as $batch)
-                            @php($totalAmount += $batch->ApprovedAmnt)
-                            @php($totalApprovedParticipatent += $batch->ApprovedParticipatent)
+                    @if(!empty($bestBatchWiseReceivedAmnt))
+                        @foreach($bestBatchWiseReceivedAmnt as $bestBatch)
+                            @php($totalBestBatch                  += $bestBatch->paymentGetwayRecivedAmnt)
+                            @php($totalBestBatchApplyParticipator  += $bestBatch->applyParticipator)
                             <tr>
-                                <td>{{ $iDate++ }}</td>
-                                <td>{{ (!empty($batch->sscBatch)?$batch->sscBatch:'')
+                                <td>{{ $bestBatchSn++ }}</td>
+                                <td>{{ (!empty($bestBatch->sscBatch)?$bestBatch->sscBatch:'')
                                                     }}</td>
-                                <td class="text-center">{{ (!empty($batch->ApprovedParticipatent)
-                                                ?$batch->ApprovedParticipatent:'')
+                                <td class="text-center">{{ (!empty($bestBatch->applyParticipator)
+                                                ?$bestBatch->applyParticipator:'')
                                                     }}</td>
 
-                                <th  class="text-right">{{ (!empty($batch->ApprovedAmnt)
-                                                    ?number_format($batch->ApprovedAmnt,2):'0.00')
+                                <th  class="text-right">{{ (!empty($bestBatch->paymentGetwayRecivedAmnt)
+                                                    ?number_format($bestBatch->paymentGetwayRecivedAmnt,2):'0.00')
                                                     }}</th>
 
                             </tr>
@@ -211,15 +217,12 @@
                     @endif
                     </tbody>
                     <tfoot>
-                        <tr>
-                            <th class="text-center" colspan="2">Total  Amount</th>
-                            <th class="text-center" >{{ (!empty($totalApprovedParticipatent)
-                                            ?$totalApprovedParticipatent:'0
-                                                ') }}</th>
-                            <th class="text-right" >{{ (!empty($totalAmount)?number_format($totalAmount,2):'0
-                                                .00') }}</th>
+                    <tr>
+                        <th class="text-center" colspan="2">Total  Amount</th>
+                        <th class="text-center" >{{ (!empty($totalBestBatchApplyParticipator)?$totalBestBatchApplyParticipator:'0') }}</th>
+                        <th class="text-right" >{{ (!empty($totalBestBatch)?number_format($totalBestBatch,2):'0.00') }}</th>
 
-                        </tr>
+                    </tr>
                     </tfoot>
 
                 </table>
@@ -249,6 +252,7 @@
                     <tr>
                         <th style="width: 10%">S/N</th>
                         <th>Date</th>
+                        <th>Participator</th>
                         <th class="text-right">Received</th>
                     </tr>
                     </thead>
@@ -256,14 +260,13 @@
 
                     @if(!empty($dateWise))
                         @foreach($dateWise as $dateCol)
-                            @php($totalAmountDate += $dateCol->ApprovedAmnt)
+                            @php($totalDateParticipator   += $dateCol->applyParticipator)
+                            @php($totalAmountDate         += $dateCol->paymentGetwayRvdAmnt)
                             <tr>
                                 <td>{{ $iDate++ }}</td>
-                                <td>{{ (!empty($dateCol->formatted_created_at)?$dateCol->formatted_created_at:'')
-                                                    }}</td>
-                                <th  class="text-right">{{ (!empty($dateCol->ApprovedAmnt)
-                                                    ?number_format($dateCol->ApprovedAmnt,2):'0.00')
-                                                    }}</th>
+                                <td>{{ (!empty($dateCol->receivedDate)?$dateCol->receivedDate:'') }}</td>
+                                <td>{{ (!empty($dateCol->applyParticipator)?$dateCol->applyParticipator:'') }}</td>
+                                <th  class="text-right">{{ (!empty($dateCol->paymentGetwayRvdAmnt) ?number_format($dateCol->paymentGetwayRvdAmnt,2):'0.00')  }}</th>
 
                             </tr>
                         @endforeach
@@ -272,8 +275,8 @@
                     <tfoot>
                     <tr>
                         <th class="text-center" colspan="2">Total  Amount</th>
-                        <th class="text-right" >{{ (!empty($totalAmountDate)?number_format($totalAmountDate,2):'0
-                                            .00') }}</th>
+                        <th class="text-right" >{{ (!empty($totalDateParticipator)?number_format($totalDateParticipator,2):'0.00') }}</th>
+                        <th class="text-right" >{{ (!empty($totalAmountDate)?number_format($totalAmountDate,2):'0.00') }}</th>
                     </tr>
                     </tfoot>
 

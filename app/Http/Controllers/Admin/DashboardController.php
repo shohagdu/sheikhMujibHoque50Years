@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\DonarInfo;
 use App\Models\EventParticipantsModel;
+use App\Models\InvoiceInfosModel;
+use App\Models\RegRateChartModel;
 use App\Models\TransactionModel;
 use App\Models\RegistrationModels;
 use Illuminate\Http\Request;
@@ -32,7 +34,7 @@ class DashboardController extends Controller
     {
         $userType           = Auth::user()->user_type;
         $userSscBatch=(!empty(Auth::user()->userSscBatch)?Auth::user()->userSscBatch:'');
-        $restritedUserType  = array(2, 3, 4,7);
+        $restritedUserType  = array(2, 3, 4,7,10);
 
         // Approved Amount
         $query    =   DonarInfo:: where(['isActive'=>1,'approvedStatus'=>2]);
@@ -127,10 +129,25 @@ class DashboardController extends Controller
         $totalParticpantApproved=$participantApproved->count('*');
 
         $userInfo           = Auth::user();
-        $applicantInfo  = RegistrationModels::applicantInfo(['user_id'=>$userInfo->id]);
+        $applicantInfo      = RegistrationModels::applicantInfo(['user_id'=>$userInfo->id]);
+        $receivedAmnt       = InvoiceInfosModel::receivedAmntInfo(['isActive'=>1]);
+        $receivedCtgInfo                = InvoiceInfosModel::receivedCtgInfo(['isActive'=>1]);
+        $batchWiseReceivedAmnt          = InvoiceInfosModel::batchWiseReceivedAmnt(['isActive'=>1]);
+        $bestBatchWiseReceivedAmnt      = InvoiceInfosModel::bestBatchWiseReceivedAmnt(['isActive'=>1]);
+        $dateWise                       = InvoiceInfosModel::dateReceivedAmnt(['isActive'=>1]);
+        $applicantApplyType = RegRateChartModel::select(DB::raw('CONCAT(title," (",amount," BDT)") AS title'),'id')->where(['is_active'=>1,'type'=>1])->pluck ('title','id');
 
 
-        return view('admin.dashboard',compact('approvedAmount','pendingAmount','coOrdinatorWiseCurrentApprovdAmnt','batchWise','dateWise','userType','totalParticpant','participantYear','totalParticpantApproved','batchWiseBestAmount','expenseInfo','userInfo','applicantInfo'));
+
+        return view('admin.dashboard',compact('approvedAmount','pendingAmount','coOrdinatorWiseCurrentApprovdAmnt','batchWise','dateWise','userType','totalParticpant','participantYear','totalParticpantApproved','batchWiseBestAmount','expenseInfo','userInfo',
+            'applicantInfo',
+            'receivedAmnt',
+            'receivedCtgInfo',
+            'applicantApplyType',
+            'batchWiseReceivedAmnt',
+            'bestBatchWiseReceivedAmnt',
+            'dateWise',
+        ));
 
     }
 }
