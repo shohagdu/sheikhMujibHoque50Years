@@ -27,11 +27,12 @@
                     <a href="{{ route('donation.donationRecord') }}" class="nav-link">
                         <i class="nav-icon fas fa-calculator"></i>
                         <p>
-                            Donation Received
+                            Registered Applicant
                         </p>
                     </a>
                 </li>
             @endif
+
             @if(!empty($userType) && ($userType==1 || $userType==2))
                 <li class="nav-item">
                     <a href="#" class="nav-link">
@@ -76,14 +77,7 @@
 
                     </ul>
                 </li>
-                <li class="nav-item">
-                    <a href="{{ route('participantsRecord') }}" class="nav-link">
-                        <i class="nav-icon fas fa-calculator"></i>
-                        <p>
-                            Participants Record
-                        </p>
-                    </a>
-                </li>
+
 
 
                 <li class="nav-item">
@@ -101,7 +95,17 @@
                     </ul>
                 </li>
             @endif
-            @if(!empty($userType) && ($userType==4  ||$userType==5 || $userType==6 || $userType==7 ))
+            @if(1==2)
+                @if(!empty($userType) && ($userType==1 || $userType==2|| $userType==3))
+                    <li class="nav-item">
+                        <a href="{{ route('donation.donationRecord') }}" class="nav-link">
+                            <i class="nav-icon fas fa-calculator"></i>
+                            <p>
+                                Donation Received
+                            </p>
+                        </a>
+                    </li>
+                @endif
                 <li class="nav-item">
                     <a href="{{ route('participantsRecord') }}" class="nav-link">
                         <i class="nav-icon fas fa-calculator"></i>
@@ -110,6 +114,16 @@
                         </p>
                     </a>
                 </li>
+                @if(!empty($userType) && ($userType==4  ||$userType==5 || $userType==6 || $userType==7 ))
+                    <li class="nav-item">
+                        <a href="{{ route('participantsRecord') }}" class="nav-link">
+                            <i class="nav-icon fas fa-calculator"></i>
+                            <p>
+                                Participants Record
+                            </p>
+                        </a>
+                    </li>
+                @endif
             @endif
 
 
