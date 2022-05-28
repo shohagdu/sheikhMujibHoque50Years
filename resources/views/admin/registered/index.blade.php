@@ -24,7 +24,7 @@
                                 <div class="row">
                                     <div class="col-sm-2">
                                         <select name="applyCtg" id="applyCtg" class="form-control">
-                                            <option value="1">Select Category</option>
+                                            <option value="">Select Category</option>
                                             @if(!empty($applicantApplyType))
                                                 @foreach($applicantApplyType as $ctgKey =>$ctgVal )
                                                     <option value="{{ (!empty($ctgKey)?$ctgKey:'') }}">{{ (!empty($ctgVal)?$ctgVal:'') }}</option>

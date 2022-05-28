@@ -113,7 +113,7 @@ class RegisteredApplicantController extends Controller
                     // data-target="#donationModal" data-toggle="tooltip" title="View Donation Modal" onclick="updateDoantionInfo(' . $row->id . ')" id="editUserBasicInfo_' . $row->id . '" ><i class="glyphicon glyphicon-pencil"></i><i class="fa fa-times"></i> Declined </button>';
                     $classRollInfo='';
                     if(!empty($classInfo[$row->class_name])) {
-                        $classRollInfo= "<br/>". $classInfo[$row->class_name] . $row->roll_no;
+                        $classRollInfo= "<br/>". $classInfo[$row->class_name] .' ('. $row->roll_no.')';
                     }
                     $data[] = [
                         'sl'                => $sl++,
