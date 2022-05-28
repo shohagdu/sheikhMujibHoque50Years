@@ -24,7 +24,7 @@
             </li>
             @if(!empty($userType) && ($userType==1 || $userType==2|| $userType==3))
                 <li class="nav-item">
-                    <a href="{{ route('donation.donationRecord') }}" class="nav-link">
+                    <a href="{{ route('registered.index') }}" class="nav-link">
                         <i class="nav-icon fas fa-calculator"></i>
                         <p>
                             Registered Applicant

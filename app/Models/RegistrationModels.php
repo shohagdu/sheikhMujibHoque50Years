@@ -67,10 +67,10 @@ class RegistrationModels extends Authenticatable
             })
 
             ->leftJoin('reg_rate_chart as gustCtg', function($join) {
-                $join->on('gustCtg.id', '=', 'registrationrecord.applyType')->where(["gustCtg.is_active"=>1]) ;
+                $join->on('gustCtg.id', '=', 'registrationrecord.applyType') ;
             })
             ->leftJoin('all_settings as occupationInfo', function($join) {
-                $join->on('occupationInfo.id', '=', 'registrationrecord.occupation')->where(["occupationInfo.is_active"=>1]) ;
+                $join->on('occupationInfo.id', '=', 'registrationrecord.occupation') ;
             })
             ->where($where);
         if($applicantInfo->count()>0){
@@ -81,7 +81,16 @@ class RegistrationModels extends Authenticatable
     }
 
 
-
+    public static function classInfo(){
+        return[
+            6=>'৬ষ্ঠ',
+            7=>'৭ম',
+            8=>'৮ম',
+            9=>'৯ম',
+            10=>'১০ম (নতুন)',
+            11=>'১০ম (পুরাতন)',
+        ];
+    }
 
 
 }

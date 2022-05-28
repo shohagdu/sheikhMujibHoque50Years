@@ -15,6 +15,7 @@ use App\Http\Controllers\ExpenseCtgController;
 use App\Http\Controllers\EventParticipantsController;
 use App\Http\Controllers\RegistrationController;
 use App\Http\Controllers\SslCommerzPaymentController;
+use App\Http\Controllers\Admin\RegisteredApplicantController;
 
 // accounting transaction controller
 use App\Http\Controllers\Admin\accounting_transaction\CapitalInvestment;
@@ -109,6 +110,15 @@ Route::group(['prefix'=>'admin', 'middleware'=>'auth', 'namespace'=>'Admin'], fu
         Route::get('index', [TransactionController::class,'index'])->name('bankTransaction.index');
         Route::post('store', [TransactionController::class,'store'])->name('bankTransaction.store');
         Route::get('edit/{id}', [TransactionController::class,'edit'])->name('bankTransaction.edit');
+    });
+
+    // Donation Management
+    Route::group(['prefix'=>'registered'],function(){
+        Route::get('index' , [RegisteredApplicantController::class,'index'])->name('registered.index');
+//        Route::post('singleDonationInfo' , [DonationController::class,'singleDonationInfo'])->name('donation.singleDonationInfo');
+//        Route::post('updateDonation', [DonationController::class, 'update'])->name('donation.updateDonation');
+//        //   Route::delete('destroy/{id}', [DonationController::class, 'destroy'])->name('donation.destroy');
+//        Route::delete('donationRecord/{id}', [DonationController::class, 'destroy'])->name('donation.donationRecord.delete');
     });
 
 

@@ -1,12 +1,14 @@
 <?php
-  //  echo "<pre>";
-  // print_r($userInfo->id)
+//    echo "<pre>";
+//   print_r($userInfo);
+//dd($applicantInfo);
+// exit;
 ?>
 <div >
     <div class="card-body">
         <div class="row">
             <div class="col-md-4 text-center">
-                <img src="{{ (file_exists($applicantInfo->picture))?url(
+                <img src="{{ (file_exists($applicantInfo->picture) && !empty($applicantInfo->picture) )?url(
                                                 $applicantInfo->picture):url
                                                 ('backend/images/avatar.jpg') }}" style="height: 200px">
             </div>
