@@ -70,6 +70,7 @@
                         <h4 class=" text-center font-weight-bold" style="color:green">ধন্যবাদ, আপনার পেমেন্ট
                             প্রক্রিয়া সফলতার সাথে সম্পন্ন  হয়েছে। অনুষ্ঠান সম্পর্কে খুব শ্রীঘ্রই আপডেট পাবেন।
                         </h4>
+                        @include('admin.registerApplicant.invoiceDetailsInfo');
                     @elseif(!empty($applicantInfo->applyType) && $applicantInfo->applyType==2 )
 
                         @if(!empty($applicantInfo->isApprovedAuthority) && $applicantInfo->isApprovedAuthority==1)

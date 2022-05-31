@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Models\DonarInfo;
 use App\Models\EventParticipantsModel;
 use App\Models\InvoiceInfosModel;
+use App\Models\RegGuestInfosModel;
 use App\Models\RegRateChartModel;
 use App\Models\TransactionModel;
 use App\Models\RegistrationModels;
@@ -137,12 +138,23 @@ class DashboardController extends Controller
 
         $applicantInfo      = RegistrationModels::applicantInfo(['registrationrecord.user_id'=>$userInfo->id]);
         //dd($applicantInfo);
-        $receivedAmnt       = InvoiceInfosModel::receivedAmntInfo(['isActive'=>1]);
+        $receivedAmnt                   = InvoiceInfosModel::receivedAmntInfo(['isActive'=>1]);
         $receivedCtgInfo                = InvoiceInfosModel::receivedCtgInfo(['isActive'=>1]);
         $batchWiseReceivedAmnt          = InvoiceInfosModel::batchWiseReceivedAmnt(['isActive'=>1]);
         $bestBatchWiseReceivedAmnt      = InvoiceInfosModel::bestBatchWiseReceivedAmnt(['isActive'=>1]);
         $dateWise                       = InvoiceInfosModel::dateReceivedAmnt(['isActive'=>1]);
-        $applicantApplyType = RegRateChartModel::select(DB::raw('CONCAT(title," (",amount," BDT)") AS title'),'id')->where(['is_active'=>1,'type'=>1])->pluck ('title','id');
+        $applicantApplyType             = RegRateChartModel::select(DB::raw('CONCAT(title," (",amount," BDT)") AS title'),'id')->where(['is_active'=>1,'type'=>1])->pluck ('title','id');
+        if(!empty($applicantInfo->applicantId)) {
+            $guestInfo =
+                RegGuestInfosModel::select('reg_gust_infos.id','reg_gust_infos.ctg_id','reg_gust_infos.name','reg_gust_infos.mobile','reg_gust_infos.amount',"gustCtg.title as gustCtgTitle")
+                    ->leftJoin('reg_rate_chart as gustCtg', function($join) {
+                        $join->on('gustCtg.id', '=', 'reg_gust_infos.ctg_id')->where(["gustCtg.is_active"=>1]) ;
+                    })
+                    ->where(['reg_gust_infos.applicantId'=>$applicantInfo->applicantId,'reg_gust_infos.isActive'=>1]);
+            if($guestInfo->count()>0) {
+                $guestInfo   = $guestInfo->get();
+            }
+        }
 
 
         return view('admin.dashboard',compact('userType','expenseInfo','userInfo',
@@ -153,6 +165,7 @@ class DashboardController extends Controller
             'batchWiseReceivedAmnt',
             'bestBatchWiseReceivedAmnt',
             'dateWise',
+            'guestInfo',
         ));
 
     }

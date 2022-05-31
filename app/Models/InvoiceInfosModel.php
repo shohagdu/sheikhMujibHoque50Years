@@ -38,6 +38,7 @@ class InvoiceInfosModel extends Authenticatable
             'transactionFeesAmnt',
             'netAmount',
             'paidStatus',
+            'paidAmnt',
             'applyType',
             'applicant.isApprovedAuthority',
             'applicant.name',

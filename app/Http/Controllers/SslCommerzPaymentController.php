@@ -157,8 +157,9 @@ class SslCommerzPaymentController extends Controller
 
     public function success(Request $request)
     {
+       // dd($request->all());
         //dd(url()->previous());
-        echo "Transaction is Successful";
+       // echo "Transaction is Successful";
         $response       = (!empty($request->all())?$request->all():'');
         $tran_id        = (!empty($response['tran_id'])?$response['tran_id']:'');
         $amount         = (!empty($response['amount'])?$response['amount']:'');
@@ -166,8 +167,11 @@ class SslCommerzPaymentController extends Controller
         $invoiceID      = (!empty($response['value_a'])?$response['value_a']:'');
 
 
-
+        $invData['paidAmnt']   = (!empty($response['amount'])?$response['amount']:'') ;
         $invData['store_amount']   = (!empty($response['store_amount'])?$response['store_amount']:'') ;
+        $invData['getwayCharge']   = (!empty($response['amount'])?$response['amount']-$response['store_amount']:'') ;
+        $invData['getWayStatus']   = (!empty($response['status'])?$response['status']:'') ;
+
         $invData['val_id']         = (!empty($response['val_id'])?$response['val_id']:'');
         $invData['bank_tran_id']   = (!empty($response['bank_tran_id'])?$response['bank_tran_id']:'') ;
         $invData['card_brand']     = (!empty($response['card_brand'])?$response['card_brand']:'');
@@ -231,7 +235,7 @@ class SslCommerzPaymentController extends Controller
                 SmsHistory::create($smsHistory);
 
 
-                echo "<br >Transaction is successfully Completed";
+               // echo "<br >Transaction is successfully Completed";
             } else {
                 /*
                 That means IPN did not work or IPN URL was not set in your merchant panel and Transation validation failed.
@@ -244,29 +248,13 @@ class SslCommerzPaymentController extends Controller
                 ->update($invData);
                 echo "validation Fail";
             }
-        } else if (!empty($invoiceRecord) && $invoiceRecord->paidStatus == 2) { //Processing or Complete this payment
-            /*
-             That means through IPN Order status already updated. Now you can just show the customer that transaction is completed. No need to udate database.
-             */
+        } else if (!empty($invoiceRecord) && $invoiceRecord->paidStatus == 2) { //Processing or
             echo "Transaction is successfully Completed s";
         } else {
             #That means something wrong happened. You can redirect customer to your product page.
             echo "Invalid Transaction";
         }
         return Redirect::to('paymentSuccess/'.$tran_id);
-       // return Redirect::intended('admin/dashboard');
-//        $credentials = [
-//            'email'         => '01521572228',
-//            'password'      => '$2y$10$ik0uHYZ4ebMmOBnEh16wLexLZ2Fxfi3gT0s.TWYK3cDNtx2ZL1mT6'
-//        ];
-//        dd($credentials);
-//        if (Auth::attempt($credentials)) {
-//            dd(Auth::user());
-//            return Redirect::to('admin/dashboard');
-//        }
-//
-//        return Redirect::to('login')->with_input();
-
     }
 
     public function fail(Request $request)
@@ -281,7 +269,7 @@ class SslCommerzPaymentController extends Controller
 
 
 
-
+        $invData['getWayStatus']            = (!empty($response['status'])?$response['status']:'') ;
         $invData['val_id']                  = (!empty($response['val_id'])?$response['val_id']:'');
         $invData['bank_tran_id']            = (!empty($response['bank_tran_id'])?$response['bank_tran_id']:'') ;
         $invData['card_brand']              = (!empty($response['card_brand'])?$response['card_brand']:'');
@@ -311,7 +299,7 @@ class SslCommerzPaymentController extends Controller
         } else {
             echo "Transaction is Invalid";
         }
-        return redirect('admin/dashboard');
+        return Redirect::to('paymentSuccess/'.$tran_id);
 
     }
 

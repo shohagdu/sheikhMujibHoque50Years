@@ -37,6 +37,7 @@ class RegistrationModels extends Authenticatable
             'transactionPer',
             'transactionFeesAmnt',
             'netAmount',
+            'paidAmnt',
             'paidStatus as invoicPaidStatus ',
             'applyType',
             'registrationrecord.name',
