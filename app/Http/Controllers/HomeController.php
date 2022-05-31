@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\InvoiceInfosModel;
+use App\Models\RegGuestInfosModel;
 use App\Models\SmsHistory;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -283,5 +285,31 @@ class HomeController extends Controller
         }
     }
 
+    public function paymentSuccess($transID){
+        $guestInfo          = [];
+        $invoiceRecord      = InvoiceInfosModel::InvoiceWithAppInfo(['invoice_infos.transId'=>$transID]);
+        if(!empty($invoiceRecord->applicantId)) {
+            $guestInfo =
+                RegGuestInfosModel::select('reg_gust_infos.id','reg_gust_infos.ctg_id','reg_gust_infos.name','reg_gust_infos.mobile','reg_gust_infos.amount',"gustCtg.title as gustCtgTitle")
+                    ->leftJoin('reg_rate_chart as gustCtg', function($join) {
+                        $join->on('gustCtg.id', '=', 'reg_gust_infos.ctg_id')->where(["gustCtg.is_active"=>1]) ;
+                    })
+                    ->where(['reg_gust_infos.applicantId'=>$invoiceRecord->applicantId,'reg_gust_infos.isActive'=>1]);
+            if($guestInfo->count()>0) {
+                $guestInfo   = $guestInfo->get();
+            }
+        }
 
+            $page_title        = 'Payment Success';
+            $applicantInfo     = $invoiceRecord;
+            $guestInfo         = $guestInfo;
+
+
+      //  return view('admin.registerApplicant.waitingForPayment',compact('data'));
+        return view('home.paymentSuccess', compact(
+            'page_title',
+            'applicantInfo',
+            'guestInfo',
+        ));
+    }
 }

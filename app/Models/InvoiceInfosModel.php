@@ -22,8 +22,8 @@ class InvoiceInfosModel extends Authenticatable
         'created_ip',
     ];
 
-    public static function generateInvoiceSlNo() {
-        return rand(99999,10000).time();
+    public static function generateInvoiceSlNo($sccBatch) {
+        return $sccBatch.rand(99999,10000).time();
     }
     public static function InvoiceWithAppInfo($where) {
         $InvoiceInfo=InvoiceInfosModel::select(

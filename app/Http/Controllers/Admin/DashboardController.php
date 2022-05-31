@@ -136,7 +136,7 @@ class DashboardController extends Controller
         $userInfo           = Auth::user();
 
         $applicantInfo      = RegistrationModels::applicantInfo(['registrationrecord.user_id'=>$userInfo->id]);
-
+        //dd($applicantInfo);
         $receivedAmnt       = InvoiceInfosModel::receivedAmntInfo(['isActive'=>1]);
         $receivedCtgInfo                = InvoiceInfosModel::receivedCtgInfo(['isActive'=>1]);
         $batchWiseReceivedAmnt          = InvoiceInfosModel::batchWiseReceivedAmnt(['isActive'=>1]);

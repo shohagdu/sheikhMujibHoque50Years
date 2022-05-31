@@ -1,9 +1,3 @@
-<?php
-//    echo "<pre>";
-//   print_r($userInfo);
-//dd($applicantInfo);
-// exit;
-?>
 <div >
     <div class="card-body">
         <div class="row">
@@ -50,14 +44,15 @@
             </div>
             <div class="col-sm-12 text-center" style="margin-top:20px">
 {{--                {{ dd($applicantInfo) }}--}}
-                @if(!empty($applicantInfo->approved_status) && $applicantInfo->approved_status==1)
+                @if(!empty($applicantInfo->approved_status) && $applicantInfo->approved_status==1 && empty($applicantInfo->invoiceIDs))
                     <div class="alert alert-info" role="alert">
                         আপনার প্রাথমিক রেজিস্ট্রেশন সম্পন্ন হয়েছে।  আপনার কিছু তথ্য প্রদান করে পেমেন্ট
                         প্রক্রিয়া সম্পন্ন করতে হবে। পেমেন্ট প্রক্রিয়া সম্পন্ন করতে নিচের "Registration Confirm" বাটনে
                         ক্লিক করুন
                     </div>
                     <a href="{{ url('admin/confirmRegistration/'.$userInfo->id) }}" class="btn btn-success btn-lg  text-center"> Registration Confirm <i class="fa  fa-angle-right"></i></a>
-                @elseif(!empty($applicantInfo->approved_status) && $applicantInfo->approved_status==2)
+                @elseif(!empty($applicantInfo->approved_status) && $applicantInfo->approved_status==2 && !empty
+                ($applicantInfo->invoiceIDs))
                     <div class="alert alert-primary" role="alert">
                         আপনার Invoice Generate সম্পন্ন হয়েছে।  আপনাকে পেমেন্ট
                         প্রক্রিয়া সম্পন্ন করতে হবে। পেমেন্ট প্রক্রিয়া পুরোপুরি সম্পন্ন করতে নিচের "Payment Confirm"
@@ -66,7 +61,8 @@
                     </div>
                     <a href="{{ url('admin/waitingForPayment/'.$applicantInfo->invoiceIDs) }}" class="btn btn-success
                      btn-lg  text-center"> Payment Confirm <i class="fa  fa-angle-right"></i></a>
-                @elseif(!empty($applicantInfo->approved_status) && $applicantInfo->approved_status==3)
+                @elseif(!empty($applicantInfo->approved_status) && $applicantInfo->approved_status==3 && !empty
+                ($applicantInfo->invoiceIDs))
                     <hr/>
 
                     @if(!empty($applicantInfo->applyType) && $applicantInfo->applyType==1 ||

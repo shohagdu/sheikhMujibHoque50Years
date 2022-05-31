@@ -253,7 +253,8 @@ class SslCommerzPaymentController extends Controller
             #That means something wrong happened. You can redirect customer to your product page.
             echo "Invalid Transaction";
         }
-//        return Redirect::intended('admin/dashboard');
+        return Redirect::to('paymentSuccess/'.$tran_id);
+       // return Redirect::intended('admin/dashboard');
 //        $credentials = [
 //            'email'         => '01521572228',
 //            'password'      => '$2y$10$ik0uHYZ4ebMmOBnEh16wLexLZ2Fxfi3gT0s.TWYK3cDNtx2ZL1mT6'

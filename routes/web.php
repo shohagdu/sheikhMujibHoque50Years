@@ -55,6 +55,7 @@ Route::get('/subCommittee' , [HomeController::class,'subCommittee']);
 Route::get('/contactUs' , [HomeController::class,'contactUs']);
 Route::get('/signUp' , [HomeController::class,'signUp']);
 
+
 Route::post('/registrationFormAction' , [HomeController::class,'registrationFormAction'])->name('registrationFormAction');
 
 Route::any('/admin', function(){
@@ -200,6 +201,8 @@ Route::post('/cancel', [SslCommerzPaymentController::class, 'cancel']);
 
 Route::post('/ipn', [SslCommerzPaymentController::class, 'ipn']);
 //SSLCOMMERZ END
+
+Route::get('/paymentSuccess/{transId}' , [HomeController::class,'paymentSuccess']);
 
 Route::get('/clear-cache', function() {
     $exitCode = Artisan::call('cache:clear');

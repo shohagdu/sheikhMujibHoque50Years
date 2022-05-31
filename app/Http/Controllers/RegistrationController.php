@@ -73,7 +73,7 @@ class RegistrationController extends Controller
 
             'occupation.required_if'            => 'পেশা চিহ্নিত করুন',
             'workPlace.required_if'             => 'কর্মস্থল এর তথ্য প্রদান করুন ',
-            'tShirtSize.required_if'             => 'টিশার্ট এর সাইজ চিহ্নিত করুন ',
+            'tShirtSize.required'             => 'টিশার্ট এর সাইজ চিহ্নিত করুন ',
         ]);
         $error_array=array();
         if ($validator->fails()) {
@@ -163,8 +163,8 @@ class RegistrationController extends Controller
                 //dd($dataArray);
 
                 $invInfo=[
-                    'invoiceId'           => InvoiceInfosModel ::generateInvoiceSlNo(),
-                    'transId'             => $applicantInfo->sscBatch.rand(999999999,100000000),
+                    'invoiceId'           => InvoiceInfosModel ::generateInvoiceSlNo($applicantInfo->sscBatch),
+                    'transId'             => $applicantInfo->sscBatch.rand(999999999,100000000).$applicantInfo->id,
                     'applicantId'         => $applicantInfo->id,
                     'applicantRegCrg'     => $request->applicantRegAmnt,
                     'guestRegCrg'         => $request->guestRegTotalAmnt,

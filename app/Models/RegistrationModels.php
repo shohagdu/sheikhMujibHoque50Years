@@ -21,7 +21,9 @@ class RegistrationModels extends Authenticatable
     ];
 
     public static function generateApplicantSlNo($batch) {
-        return $batch.rand(99999,10000);
+        $tCount=RegistrationModels::select('id')->count();
+        $bCount=RegistrationModels::select('id')->where(['sscBatch'=>$batch])->count();
+        return $batch.str_pad($bCount+1,3,"0",STR_PAD_LEFT).str_pad($tCount+1,4,"0",STR_PAD_LEFT);
     }
     public static function applicantInfo($where) {
         $applicantInfo    =   RegistrationModels::select(
