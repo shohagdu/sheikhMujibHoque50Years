@@ -80,6 +80,8 @@
                         @else
 
                         @endif
+
+                        @include('admin.registerApplicant.invoiceDetailsInfo');
                     @else
 
                     @endif
