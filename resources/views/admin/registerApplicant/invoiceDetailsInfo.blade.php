@@ -112,14 +112,15 @@
                                 </td>
                             </tr>
                             <tr>
-                                <th colspan="4" class="text-right  color-red">সর্বমোট
+                                <th colspan="4" class="text-right  color-red" style="color: red;font-weight:
+                                bold">সর্বমোট
                                     নিবন্ধন  ফি</th>
                                 <td  class="text-right">
                                     {{ !empty($applicantInfo->netAmount)
                                     ?$applicantInfo->netAmount:'0.00' }}
                                 </td>
                             </tr><tr>
-                                <th colspan="4" class="text-right  color-red">সর্বমোট
+                                <th colspan="4" class="text-right " style="color: green;font-weight: bold">সর্বমোট
                                     প্রদানকৃত</th>
                                 <td  class="text-right">
                                     {{ !empty($applicantInfo->paidAmnt)

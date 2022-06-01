@@ -144,15 +144,16 @@ class DashboardController extends Controller
         $bestBatchWiseReceivedAmnt      = InvoiceInfosModel::bestBatchWiseReceivedAmnt(['isActive'=>1]);
         $dateWise                       = InvoiceInfosModel::dateReceivedAmnt(['isActive'=>1]);
         $applicantApplyType             = RegRateChartModel::select(DB::raw('CONCAT(title," (",amount," BDT)") AS title'),'id')->where(['is_active'=>1,'type'=>1])->pluck ('title','id');
-        if(!empty($applicantInfo->applicantId)) {
-            $guestInfo =
+        $guestInfo=[];
+        if(!empty($applicantInfo->applicantId) && !empty($applicantInfo->invoiceIDs)) {
+            $guestData =
                 RegGuestInfosModel::select('reg_gust_infos.id','reg_gust_infos.ctg_id','reg_gust_infos.name','reg_gust_infos.mobile','reg_gust_infos.amount',"gustCtg.title as gustCtgTitle")
                     ->leftJoin('reg_rate_chart as gustCtg', function($join) {
                         $join->on('gustCtg.id', '=', 'reg_gust_infos.ctg_id')->where(["gustCtg.is_active"=>1]) ;
                     })
                     ->where(['reg_gust_infos.applicantId'=>$applicantInfo->applicantId,'reg_gust_infos.isActive'=>1]);
-            if($guestInfo->count()>0) {
-                $guestInfo   = $guestInfo->get();
+            if($guestData->count()>0) {
+                $guestInfo   = $guestData->get();
             }
         }
 

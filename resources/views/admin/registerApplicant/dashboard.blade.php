@@ -8,9 +8,6 @@
             </div>
             <div class="col-md-8">
                 <div class="d-flex  align-items-center border-bottom mb-3">
-{{--                    <p class="text-success text-xl">--}}
-{{--                        <i class="ion ion-ios-refresh-empty"></i>--}}
-{{--                    </p>--}}
                     <p class="d-flex flex-column ">
                          <span class="font-weight-bold">
                             <i class="ion ion-android-arrow-up text-success"></i> {{ (!empty($userInfo->name)?$userInfo->name:'') }}
