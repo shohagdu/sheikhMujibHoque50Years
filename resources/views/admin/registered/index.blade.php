@@ -43,11 +43,12 @@
                                     </div>
 
                                     <div class="col-sm-2">
-                                        <select name="status" id="status" class="form-control">
-                                          <option value="3">Approved (Paid)</option>
-                                          <option value="2">Waiting for Payment</option>
-                                          <option value="1">Registration Complete</option>
-                                          <option value="4">Declined (Not Approved)</option>
+                                        <select name="paymentStatus" id="paymentStatus" class="form-control">
+                                          <option value="">Payment Status</option>
+                                          <option value="2">Approved (Paid)</option>
+                                          <option value="1">Pending</option>
+                                          <option value="3">Cancelled</option>
+                                          <option value="4">Declined (Not Approved Student)</option>
                                         </select>
                                     </div>
                                     <div class="col-sm-2">
@@ -76,6 +77,7 @@
                                     <th>Net Amount </th>
                                     <th>Paid Amount</th>
                                     <th>Created At</th>
+                                    <th>Status</th>
                                     <th style="width: 20%">Action</th>
                                 </tr>
                                 </thead>
@@ -96,7 +98,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <div class="col-md-10">
-                        <h6 class="modal-title" id="exampleModalLabel">Donation Information</h6>
+                        <h6 class="modal-title" id="exampleModalLabel">Registered Applicant Information</h6>
                     </div>
                     <div class="col-sm-2">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -108,43 +110,101 @@
                 <div class="modal-body">
                     <form  action="" id="donationApprovedForm" method="post">
                         <div class="form-group">
-                            <label class="control-label col-sm-12" for="donerName">Doner Name</label>
-                            <div class="col-sm-12">
-                                <span class="donerName"></span>
-                            </div>
+                            <h4 class="text-center">Payment Pending</h4>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-sm-12" for="donerMobile">Mobile Number</label>
-                            <div class="col-sm-12">
-                                <div class="donerMobile"></div>
+                            <div class="row">
+                                <label class="control-label col-sm-2" for="donerName"> Name</label>
+                                <div class="col-sm-4">
+                                    <span class="donerName"></span>
+                                </div>
+                                <label class="control-label col-sm-2" for="donerMobile">Mobile Number</label>
+                                <div class="col-sm-4">
+                                    <div class="donerMobile"></div>
+                                </div>
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label class="control-label col-sm-12" for="sscBatch">SSC Batch</label>
-                            <div class="col-sm-12">
-                                <div class="sscBatch"></div>
+                            <div class="row">
+                                <label class="control-label col-sm-2" for="fatherHusbandName">Father/Husband</label>
+                                <div class="col-sm-4">
+                                    <div class="fatherHusbandName"></div>
+                                </div>
+                                <label class="control-label col-sm-2" for="sscBatch">SSC Batch</label>
+                                <div class="col-sm-4">
+                                    <div class="sscBatch"></div>
+                                </div>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-sm-12" for="transactionID">Transaction Number</label>
-                            <div class="col-sm-12">
-                                <div class="transactionID"></div>
+                            <div class="row">
+                                <label class="control-label col-sm-2" for="address">ঠিকানা</label>
+                                <div class="col-sm-10">
+                                    <div class="address"></div>
+                                </div>
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label class="control-label col-sm-12" for="donationSendedNumber">Send bKash Number</label>
-                            <div class="col-sm-8">
-                                <div class="donationSendedNumber"></div>
+                            <div class="row">
+                                <label class="control-label col-sm-2" for="className">শ্রেণী</label>
+                                <div class="col-sm-4">
+                                    <div class="className"></div>
+                                </div>
+                                <label class="control-label col-sm-2" for="classRollNo">রোল নং</label>
+                                <div class="col-sm-4">
+                                    <div class="classRollNo"></div>
+                                </div>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label class="control-label col-sm-12" for="DonationAmount">Amount</label>
-                            <div class="col-sm-8">
-                                <div class="DonationAmount"></div>
-                            </div>
-                        </div>
+                        <table class="table table-bordered">
+                            <tr>
+                                <th class="text-right">পারিবারিক সদস্যদের ফি</th>
+                                <td  class="text-right">
+                                    <div class="familyMemberRegfees"></div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th  class="text-right">সদস্য নিবন্ধন ফি</th>
+                                <td  class="text-right">
+                                    <span class="ownRegFees"></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th  class="text-right color-green"> নিবন্ধন
+                                    (পারিবারিক
+                                    সদস্যদের+সদস্য) ফি</th>
+                                <td  class="text-right">
+                                    <span class="ownRegFamilyMemberFees"></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th  class="text-right">অনলাইন ট্রানজেশন ফি
+                                </th>
+                                <td class="text-right">
+                                    <span class="onlineTransFees"></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th  class="text-right  color-red" style="color: red;font-weight:
+                                    bold">সর্বমোট
+                                    নিবন্ধন  ফি</th>
+                                <td  class="text-right">
+                                    <span class="TotalRegFees"></span>
+                                </td>
+                            </tr><tr>
+                                <th  class="text-right " style="color: green;font-weight: bold">সর্বমোট
+                                    প্রদানকৃত</th>
+                                <td  class="text-right">
+                                    <span class="paidAmount"></span>
+                                </td>
+                            </tr>
+                        </table>
+
+
+
+
 
                         <div class="form-group">
                             <div class="col-sm-offset-2 col-sm-8">
@@ -203,7 +263,7 @@
                     url: base_url + "/registered/index",
                     method: "get",
                     data: function (d) {
-                        (d.status                   = $("#status").val()),
+                        (d.paymentStatus                   = $("#paymentStatus").val()),
                         (d.sscBatch                 = $("#sscBatch").val()),
                         (d.className                = $("#className").val()),
                         (d.applyCtg                 = $("#applyCtg").val()),
@@ -221,7 +281,8 @@
                     {data: 'netAmount', name: 'netAmount',class: 'text-left'},
                     {data: 'store_amount', name: 'store_amount',class: 'text-right'},
 
-                    {data: 'paid_date', name: 'paid_date',class: 'text-left'},
+                    {data: 'created_at', name: 'created_at',class: 'text-left'},
+                    {data: 'approvedStatus', name: 'approvedStatus',class: 'text-left'},
                     {data: 'action', name: 'action', orderable: false, searchable: false,class: 'text-center'},
                 ],
                 "info": true,
@@ -229,7 +290,7 @@
                 "responsive": true,
             });
 
-            $("#status,#applyCtg,#sscBatch,#className,#gender").change(function () {
+            $("#paymentStatus,#applyCtg,#sscBatch,#className,#gender").change(function () {
                 table.draw();
             });
 
@@ -239,24 +300,26 @@
             var id = $(this).data("id");
             if (confirm("Are You sure want to delete !")){
                 $.ajax({
-                    type: "DELETE",
-                    url: "{{ route('donation.donationRecord') }}"+'/'+id,
+                    type: "post",
+                    data:{id:id},
+                    url: "{{ route('registered.destroy') }}",
                     success: function (data) {
                         if(data.success){
                             toastr.success(data.success);
-                            table.draw();
+                            tableUser.draw();
                         }
                         else{
                             toastr.error(data.error);
                         }
                     },
                     error: function (data) {
+                        //console.log('Error:', data);
                     }
                 });
 
             }
         });
-        function updateDoantionInfo(id){
+        function updateRegistredAppInfo(id){
             $("#update_id").val('');
             $("#submitBtnLabel").html('Approved');
             $('#donationApprovedForm')[0].reset();
@@ -264,22 +327,28 @@
             $("#formOutput").html('');
             $.ajax({
                 type: "POST",
-                url: base_url + "/donation/singleDonationInfo",
+                url: base_url + "/registered/singleApplicantInfo",
                 data: {id:id},
                 'dataType': 'json',
                 success: function (response) {
                     if (response.status=='success') {
                         var data=response.data;
+                        console.log(data);
                         $(".submit_btn").attr("disabled", false);
-                        $("#update_id").val(data.id);
+                        $("#update_id").val(data.applicantId);
                         $(".donerName").html(data.name);
                         $(".donerMobile").html(data.mobileNumber);
                         $(".sscBatch").html(data.sscBatch);
-                        $(".transactionID").html(data.TransactionID);
-                        $(".donationSendedNumber").html(data.sendNumber);
-                        $(".DonationAmount").html(data.donationAmount);
-                        $("#currentStatus").val(data.approvedStatus);
-                        $("#nextStatus").val(2);
+                        $(".fatherHusbandName").html(data.fatherHusbandName);
+                        $(".address").html(data.address);
+                        $(".className").html(data.class_name);
+                        $(".classRollNo").html(data.roll_no);
+                        $(".familyMemberRegfees").html(data.guestRegCrg);
+                        $(".ownRegFees").html(data.applicantRegCrg);
+                        $(".ownRegFamilyMemberFees").html(data.totalRegCrg);
+                        $(".onlineTransFees").html(data.transactionFeesAmnt);
+                        $(".TotalRegFees").html(data.netAmount);
+                        $(".paidAmount").html(data.paidAmnt);
                     } else {
 
                     }
@@ -292,7 +361,7 @@
             $("#formOutput").html('');
             $.ajax({
                 type: "POST",
-                url: base_url + "/donation/updateDonation",
+                url: base_url + "/registered/updateDonation",
                 data: $("#donationApprovedForm").serialize() ,
                 'dataType': 'json',
                 success: function (data) {

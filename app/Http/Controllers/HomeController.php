@@ -312,4 +312,35 @@ class HomeController extends Controller
             'guestInfo',
         ));
     }
+    public function purchaseGuide(){
+        $data=[
+            'title'     => 'Purchase Guide',
+            'info'      => '....তথ্য খুব শ্রীঘ্রই তথ্য আপডেট করা হবে।'
+        ];
+        return view('home.ssl.purchaseGuide', compact('data'));
+    }
+    public function privacyPolicy(){
+        $data=[
+            'title'     => 'Privacy Policy',
+            'info'      => '....তথ্য খুব শ্রীঘ্রই তথ্য আপডেট করা হবে।'
+        ];
+        return view('home.ssl.privacyPolicy', compact('data'));
+    }
+    public function termsOfService(){
+        $data=[
+            'title'     => 'Terms Of Service',
+            'info'      => '....তথ্য খুব শ্রীঘ্রই তথ্য আপডেট করা হবে।'
+        ];
+        return view('home.ssl.termsOfService', compact('data'));
+    }
+    public function refundReturns(){
+        $data=[
+            'title'     => 'Refund & Returns',
+            'info'      => '....তথ্য খুব শ্রীঘ্রই তথ্য আপডেট করা হবে।'
+        ];
+        return view('home.ssl.refundReturns', compact('data'));
+    }
+
+
+
 }

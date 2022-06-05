@@ -4,6 +4,7 @@
     $totalAmount                    = 0;
     $pendingAmount                  = 0;
     $totalApprovedParticipatent     = 0;
+    $totalApplyParticipator         = 0;
 
     $iBatch                = 1;
     $totalAmountBatch      = 0;
@@ -82,6 +83,7 @@
             @if(!empty($receivedCtgInfo))
                 @foreach($receivedCtgInfo as $recivedGetway)
                     @php($totalPaymentReceived+=$recivedGetway->paymentGetwayRecivedAmnt)
+                    @php($totalApplyParticipator+=$recivedGetway->applyParticipator)
                     <tr>
                         <td>{{ $i++ }}</td>
                         <td>{{ (!empty($applicantApplyType[$recivedGetway->applyType])
@@ -98,8 +100,10 @@
             </tbody>
             <tfoot>
                 <tr>
-                    <th class="text-center" colspan="3">Total Collection Amount (Payment getway)</th>
+                    <th class="text-center" colspan="2">Total Collection Amount (Payment getway)</th>
+                    <th class="text-center" >{{ (!empty($totalApplyParticipator)?$totalApplyParticipator:'0') }}</th>
                     <th class="text-right" >{{ (!empty($totalPaymentReceived)?$totalPaymentReceived:'0.00') }}</th>
+
 
                 </tr>
             </tfoot>

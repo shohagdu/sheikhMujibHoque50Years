@@ -23,10 +23,10 @@ class RegisteredApplicantController extends Controller
 
     public function __construct()
     {
-        $this->createdAt = date('Y-m-d H:i:s');
-        $this->ipAddress = \request()->ip();
-        $this->userID = $this->middleware(function ($request, $next) {
-            $this->userID = Auth::user()->id;
+        $this->createdAt    = date('Y-m-d H:i:s');
+        $this->ipAddress    = \request()->ip();
+        $this->userID       = $this->middleware(function ($request, $next) {
+            $this->userID   = Auth::user()->id;
             return $next($request);
         });
     }
@@ -50,9 +50,9 @@ class RegisteredApplicantController extends Controller
                 ]
 
             ])->
-            select('invoice_infos.*', 'registrationrecord.name','registrationrecord.sscBatch','registrationrecord.tShirtSize','registrationrecord.picture','registrationrecord.class_name','registrationrecord.class_name','registrationrecord.roll_no', "u.name as userName","u.email as mobileNumber","u.mobile as emailAddress");
+            select('invoice_infos.*', 'registrationrecord.name','registrationrecord.sscBatch','registrationrecord.tShirtSize','registrationrecord.picture','registrationrecord.class_name','registrationrecord.class_name','registrationrecord.roll_no', "u.name as userName","u.email as mobileNumber","u.mobile as emailAddress","registrationrecord.applyType","registrationrecord.isApprovedAuthority","registrationrecord.approved_status","registrationrecord.id as applicnatPrimaryID");
             $query->join('invoice_infos', function($join) {
-                $join->on('registrationrecord.paidInvoiceId', '=', 'invoice_infos.id')->where(["invoice_infos.isActive"=>1,"paidStatus"=>2]) ;
+                $join->on('registrationrecord.paidInvoiceId', '=', 'invoice_infos.id')->where(["invoice_infos.isActive"=>1]) ;
             })
                 ->join('users as u', function($join) {
                     $join->on('u.id', '=', 'registrationrecord.user_id') ;
@@ -61,8 +61,10 @@ class RegisteredApplicantController extends Controller
             if (!empty($request->sscBatch)) {
                 $query->where('registrationrecord.sscBatch', '=', $request->sscBatch);
             }
-            if (!empty($request->status)) {
-                $query->where('approved_status', $request->status);
+            if (!empty($request->paymentStatus)) {
+                $query->where('approved_status', $request->paymentStatus);
+            }else{
+                $query->whereIn('approved_status',[1,2,3]);
             }
             if (!empty($request->applyCtg)) {
                 $query->where('applyType', $request->applyCtg);
@@ -90,7 +92,7 @@ class RegisteredApplicantController extends Controller
                 ->orderBy('id', 'DESC')
                 ->groupBy('invoice_infos.applicantId')
                 ->get();
-
+            //dd($result);
 
             $data = [];
             if (count($result) > 0) {
@@ -99,11 +101,14 @@ class RegisteredApplicantController extends Controller
                 foreach ($result as $key => $row) {
                     $btn = '';
 
-                    if ($row->paidStatus == 2) {
-                        $btn .= ' <button type="button" class="btn btn-info btn-sm " data-toggle="modal" data-target="#donationModal" data-toggle="tooltip" title="View Donation Modal" onclick="updateDoantionInfo(' . $row->id . ')" id="editUserBasicInfo_' . $row->id . '" ><i class="glyphicon glyphicon-pencil"></i><i class="fa fa-eye"></i> View </button>';
+                    if ( $row->applyType==2) {
 
-                        if ($userType == 1 || $userType == 2) {
-                            $btn .= ' <a href="javascript:void(0)" data-toggle="tooltip" title="Delete"  data-id="' . $row->id
+                        if ( (!in_array($row->approved_status,[1,2,3]) || $row->isApprovedAuthority == 1) ) {
+                            $btn .= ' <button type="button" class="btn btn-info btn-sm " data-toggle="modal" data-target="#donationModal" data-toggle="tooltip" title="View Donation Modal" onclick="updateRegistredAppInfo(' . $row->applicnatPrimaryID . ')" id="editUserBasicInfo_' . $row->applicnatPrimaryID . '" ><i class="glyphicon glyphicon-pencil"></i><i class="fa fa-plus"></i> Approved </button>';
+                        }
+
+                        if (($userType == 1 || $userType == 2) && (in_array($row->approved_status,[1,2,3])) ) {
+                            $btn .= ' <a href="javascript:void(0)" data-toggle="tooltip" title="Delete"  data-id="' . $row->applicnatPrimaryID
                                 . '" data-original-title="Delete" class="btn btn-danger btn-sm deleteData"><i class="fa fa-times"></i> Decline </a>';
                         }
                     }
@@ -123,10 +128,12 @@ class RegisteredApplicantController extends Controller
                         'gustCount'         => '',
                         'TransactionID'     => $row->transId,
                         'netAmount'         => $row->netAmount,
-                        'store_amount'      => $row->store_amount,
+                        'store_amount'      => (!empty($row->store_amount)?$row->store_amount:'0.00'),
+                        'created_at'         =>  date('d M, Y h:i a', strtotime($row->created_at)),
                         'paid_date'         =>  date('d M, Y h:i a', strtotime($row->paid_date)),
+
                         'invoiceId'         => $row->invoiceId,
-                        'classProfession'   => $row->class_name . $row->roll_no  ,
+                        'approvedStatus'   => RegistrationModels::getAppPaymentStatus($row->paidStatus,$row->applyType,$row->isApprovedAuthority,$row->approved_status) ,
                         'action'            => $btn,
                     ];
                 }
@@ -165,5 +172,115 @@ class RegisteredApplicantController extends Controller
         $applicantApplyType = RegRateChartModel::select(DB::raw('CONCAT(title," (",amount," BDT)") AS title'),'id')->where(['is_active'=>1,'type'=>1])->pluck ('title','id');
         $classInfo= RegistrationModels::classInfo();
         return view('admin.registered.index', compact('data', 'applicantApplyType','classInfo'));
+    }
+
+    public function destroy(request $request)
+    {
+        $info   =   RegistrationModels::applicantInfo(['registrationrecord.id'=>$request->id]);
+        if(!empty($info) && $info->approved_status==4) {
+            $response = ['error' =>'This Application has current status and next status is same.'];
+            return response()->json($response);
+        }
+        $userType           = Auth::user()->user_type;
+        if(!in_array($userType,[1,2,3])){
+            $response = ['error' =>'Un-Authorized Request'];
+            return response()->json($response);
+        }
+        DB::beginTransaction();
+        try {
+            $data = [
+                'isApprovedAuthority'   => 1,
+                'approved_status'       => 4,
+                'updated_at'            => date('Y-m-d H:i:s'),
+                'updated_by'            => Auth::id(),
+                'updated_ip'            => $this->ipAddress
+            ];
+
+
+            RegistrationModels::where('id',$request->id)->update($data);
+            DB::commit();
+            $redirectTo = route('registered.index');
+            $response = ['success'=>"Applicant  Info.  Declined Successfully.", 'redirectTo' =>
+                $redirectTo];
+            \Toastr::success($response['success']);
+        }
+        catch (\Exception $e){
+            DB::rollback();
+            $response = ['error'=>$e->getMessage()];
+        }
+
+        return response()->json($response);
+
+    }
+    public function singleApplicantInfo(Request $request){
+
+        DB::beginTransaction();
+        try {
+            $info   =   RegistrationModels::applicantInfo(['registrationrecord.id'=>$request->id]);
+            $info->approvedStatus=RegistrationModels::getAppPaymentStatus($info->paidStatus,$info->applyType,
+                $info->isApprovedAuthority,
+                $info->approved_status);
+            DB::commit();
+            $response = ['status'=>'success', 'message'=>"Data Found Successfully", 'data' => $info];
+        }catch (\Exception $e){
+            DB::rollback();
+            $response = ['status'=>'error','message'=>$e->getMessage(),'data'=>[]];
+        }
+        return response()->json($response);
+    }
+    public function update(Request $request)
+    {
+       // dd($request->all());
+        $this->validate($request, [
+            'update_id' => 'required|numeric',
+        ]);
+
+//        if($request->currentStatus==$request->nextStatus) {
+//            $response = ['error' =>'This Application has current status and next status is same.'];
+//            return response()->json($response);
+//        }
+
+//        $currentData = DonarInfo::find($request->update_id);
+//        if($currentData->approvedStatus==$request->nextStatus){
+//            $response = ['error' =>'This Application has current status and next status is same.'];
+//            return response()->json($response);
+//        }
+
+        DB::beginTransaction();
+        try {
+            $updateInfo=[
+                'updated_at'        => date('Y-m-d H:i:s'),
+                'updated_by'        => Auth::id(),
+                'updated_ip'        => $request->ip()
+            ];
+            $sms ="Dear dt, We, at 'Ex. Student Forum of Lemua High School',  greatly appreciate your donation. Your donation amount  has been successfully received. ";
+            $smsHistory=[
+                'donar_id'         => $request->user_id,
+                'mobile_number'    => '',
+                'msg'              => $sms,
+                'send_status'      => 1,
+                'ins_date'         => date('Y-m-d H:i:s'),
+                'ins_by'           => Auth::id()
+            ];
+            $data = [
+                'isApprovedAuthority'    => 2,
+               // 'processInfo'       => json_encode($updateInfo),
+                'updated_at'        => date('Y-m-d H:i:s'),
+                'updated_by'        => Auth::id(),
+                'updated_ip'     => $request->ip()
+            ];
+
+            SmsHistory::create($smsHistory);
+            RegistrationModels::where('id',$request->update_id)->update($data);
+            DB::commit();
+            $redirectTo = route('donation.donationRecord');
+            $response = ['success'=>"Successfully Approved", 'redirectTo' => $redirectTo];
+            \Toastr::success($response['success']);
+        } catch (\Exception $e){
+            DB::rollback();
+            $response = ['error'=>$e->getMessage()];
+        }
+
+        return response()->json($response);
     }
 }

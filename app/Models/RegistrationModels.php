@@ -94,6 +94,23 @@ class RegistrationModels extends Authenticatable
             11=>'১০ম (পুরাতন)',
         ];
     }
+     public static function getAppPaymentStatus($paidStatus,$applyType,$isApprovedAuthority,$applicationStep){
+        if($applicationStep==1 && $paidStatus==NULL ){
+            return "Registration Complete";
+        }elseif($applyType==2 && $isApprovedAuthority==1 && $applicationStep==2 ){
+            return "Waiting for Approved (Student)";
+        }elseif(($applyType==2)  && $isApprovedAuthority==2 ){
+            return "Approved (Students)";
+        }elseif(($applyType==1 || $applyType==3 )  && $paidStatus==2 ){
+            return "Paid";
+        }elseif(($applyType==1 || $applyType==3 )  && $paidStatus==1 ){
+            return "Waiting for Payment (Inv. Generated)";
+        }elseif ($applicationStep==3){
+            return "Cancelled";
+        }elseif ($applicationStep==4){
+            return "Declined";
+        }
+    }
 
 
 }

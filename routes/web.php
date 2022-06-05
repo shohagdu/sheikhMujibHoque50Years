@@ -116,10 +116,11 @@ Route::group(['prefix'=>'admin', 'middleware'=>'auth', 'namespace'=>'Admin'], fu
     // Donation Management
     Route::group(['prefix'=>'registered'],function(){
         Route::get('index' , [RegisteredApplicantController::class,'index'])->name('registered.index');
-//        Route::post('singleDonationInfo' , [DonationController::class,'singleDonationInfo'])->name('donation.singleDonationInfo');
-//        Route::post('updateDonation', [DonationController::class, 'update'])->name('donation.updateDonation');
+        Route::post('singleApplicantInfo' , [RegisteredApplicantController::class,'singleApplicantInfo'])->name('registered.singleApplicantInfo');
+        Route::post('updateDonation', [RegisteredApplicantController::class, 'update'])->name('registered.updateDonation');
 //        //   Route::delete('destroy/{id}', [DonationController::class, 'destroy'])->name('donation.destroy');
-//        Route::delete('donationRecord/{id}', [DonationController::class, 'destroy'])->name('donation.donationRecord.delete');
+       // Route::POST('destroy/{id}', [RegisteredApplicantController::class, 'destroy']);
+        Route::post('destroy' ,  [RegisteredApplicantController::class,'destroy'])->name('registered.destroy');
     });
 
 
@@ -203,6 +204,11 @@ Route::post('/ipn', [SslCommerzPaymentController::class, 'ipn']);
 //SSLCOMMERZ END
 
 Route::get('/paymentSuccess/{transId}' , [HomeController::class,'paymentSuccess']);
+
+Route::get('/purchaseGuide' , [HomeController::class,'purchaseGuide']);
+Route::get('/privacyPolicy' , [HomeController::class,'privacyPolicy']);
+Route::get('/termsOfService' , [HomeController::class,'termsOfService']);
+Route::get('/refundReturns' , [HomeController::class,'refundReturns']);
 
 Route::get('/clear-cache', function() {
     $exitCode = Artisan::call('cache:clear');
