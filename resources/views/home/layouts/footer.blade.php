@@ -16,11 +16,12 @@
         <div class="col-lg-3 col-md-6 mb-5">
             <h5 class="font-weight-bold text-primary mb-4">Quick Links</h5>
             <div class="d-flex flex-column justify-content-start">
-                <a class="text-white mb-2" href="#"><i class="fa fa-angle-right text-primary mr-2"></i>Home</a>
-                <a class="text-white mb-2" href="#"><i class="fa fa-angle-right text-primary mr-2"></i>About Us</a>
-                <a class="text-white mb-2" href="#"><i class="fa fa-angle-right text-primary mr-2"></i>Products</a>
-                <a class="text-white mb-2" href="#"><i class="fa fa-angle-right text-primary mr-2"></i>Compliance</a>
-                <a class="text-white" href="#"><i class="fa fa-angle-right text-primary mr-2"></i>Contact Us</a>
+                <a href="{{ url('/home')}}" class="text-white mb-2 "><i class="fa fa-angle-right text-primary mr-2"></i>হোম</a>
+                <a class="text-white mb-2" href="{{ url('/registrationProcess')}}"><i class="fa fa-angle-right text-primary mr-2"></i>রেজিস্ট্রেশন প্রক্রিয়া</a>
+                <a class="text-white mb-2" href="{{ url('/events')}}"><i class="fa fa-angle-right text-primary mr-2"></i>ইভেন্ট সম্পর্কে</a>
+                <a class="text-white mb-2" href="{{ url('/subCommittee')}}"><i class="fa fa-angle-right text-primary mr-2"></i>উপকমিটি সমূহ</a>
+                <a class="text-white" href="{{ url('/signUp')}}"><i class="fa fa-angle-right text-primary mr-2"></i>রেজিস্ট্রেশন</a>
+                <a class="text-white" href="{{ url('/admin')}}"><i class="fa fa-angle-right text-primary mr-2"></i>লগ ইন</a>
             </div>
         </div>
         <div class="col-lg-3 col-md-6 mb-5">
@@ -39,15 +40,15 @@
     </div>
     <div class="row">
         <div class="col-lg-12" style="margin-bottom: 20px">
-            <a href="index.html" class="navbar-brand">
-                <img src="{{ url('public/web/img/ssl_logoss-1536x47.png') }}" style="height: 40px;width: 100%">
-            </a>
+            <img src="{{ url('public/web/img/ssl_logoss-1536x47.png') }}" class="img-responsive" style="height: 40px;width:
+            100%">
         </div>
     </div>
 </div>
 <div class="container-fluid py-4 px-sm-3 px-md-5" style="background-color: #1a252f">
     <p class="m-0 text-center" style="color: #fff">
-        Software Design & Developed By  <a class="font-weight-semi-bold" href="https://du.ac.bd/faculty/faculty_details/ictcell/45320" target="_blank">Md.Omar  Faruk</a>
+        Software Design & Developed By  <a class="font-weight-semi-bold"
+                                           href="https://du.ac.bd/faculty/faculty_details/ictcell/45320" target="_blank">Md. Omar  Faruk (Shohag)</a>
     </p>
 </div>
 
