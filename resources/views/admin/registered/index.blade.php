@@ -44,9 +44,12 @@
 
                                     <div class="col-sm-2">
                                         <select name="paymentStatus" id="paymentStatus" class="form-control">
-                                          <option value="">Payment Status</option>
-                                          <option value="2">Approved (Paid)</option>
-                                          <option value="1">Pending</option>
+                                          <option value="">Status</option>
+{{--                                          <option value="1">Registration Complete</option>--}}
+                                          <option value="2">Waiting for Approved (Student)</option>
+                                          <option value="10">Approved (Students)</option>
+                                          <option value="11">Paid</option>
+                                          <option value="5">Waiting for Payment (Inv. Generated)</option>
                                           <option value="3">Cancelled</option>
                                           <option value="4">Declined (Not Approved Student)</option>
                                         </select>
@@ -215,7 +218,7 @@
                             <div class="col-sm-offset-2 col-sm-8">
                                 <input type="hidden" name="update_id" id="update_id">
                                 <input type="hidden" name="currentStatus" id="currentStatus">
-                                <input type="hidden" name="nextStatus" id="nextStatus">
+                                <input type="hidden" name="nextStatus" id="nextStatus" value="2">
                                 <button type="button" class="btn btn-primary submit_btn" onclick="updateDonationBtn()"> <i class="fa fa-address-book" aria-hidden="true"></i> <span id="submitBtnLabel"></span></button>
                                 <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa
                                 fa-times" aria-hidden="true"></i> Close</button>

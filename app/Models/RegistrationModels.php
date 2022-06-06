@@ -105,7 +105,7 @@ class RegistrationModels extends Authenticatable
             return "Paid";
         }elseif(($applyType==1 || $applyType==3 )  && $paidStatus==1 ){
             return "Waiting for Payment (Inv. Generated)";
-        }elseif ($applicationStep==3){
+        }elseif ($applicationStep==6){
             return "Cancelled";
         }elseif ($applicationStep==4){
             return "Declined";

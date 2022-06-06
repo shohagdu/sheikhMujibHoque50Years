@@ -296,7 +296,8 @@
                                                 <button type="submit" class="btn btn-success submit_btn btn-lg
                                                 btn-block"
                                                 > <i
-                                                        class="fa fa-address-book" aria-hidden="true"></i> Save</button>
+                                                        class="fa fa-address-book" aria-hidden="true"></i>
+                                                    Submit</button>
                                             </div>
                                         </div>
 

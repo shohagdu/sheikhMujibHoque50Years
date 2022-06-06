@@ -62,7 +62,22 @@ class RegisteredApplicantController extends Controller
                 $query->where('registrationrecord.sscBatch', '=', $request->sscBatch);
             }
             if (!empty($request->paymentStatus)) {
-                $query->where('approved_status', $request->paymentStatus);
+                if( $request->paymentStatus==2){ //Pending for approved (std)
+                    $query->where(['approved_status'=>2,'isApprovedAuthority'=>1,'applyType'=>2]);
+                }elseif($request->paymentStatus==10){ //Approved (std)
+                    $query->where(['approved_status'=>2,'isApprovedAuthority'=>2,'applyType'=>2]);
+                }elseif($request->paymentStatus==11){ // Paid
+                    $query->where(['approved_status'=>3,'isApprovedAuthority'=>1,'paidStatus'=>2]);
+                    $query->whereIn('applyType',[1,3]);
+                }elseif($request->paymentStatus==11){ // Inv. Generated
+                    $query->where(['approved_status'=>3,'isApprovedAuthority'=>1,'paidStatus'=>1]);
+                    $query->whereIn('applyType',[1,3]);
+                }elseif($request->paymentStatus==6){ // cancelled
+                    $query->where(['approved_status'=>6,'isApprovedAuthority'=>1,'paidStatus'=>1]);
+                }elseif($request->paymentStatus==4){ // Declined
+                    $query->where(['approved_status'=>4,'isApprovedAuthority'=>1,'paidStatus'=>1]);
+                }
+
             }else{
                 $query->whereIn('approved_status',[1,2,3]);
             }
@@ -234,17 +249,13 @@ class RegisteredApplicantController extends Controller
         $this->validate($request, [
             'update_id' => 'required|numeric',
         ]);
+        $currentData = RegistrationModels::applicantInfo(['registrationrecord.id'=>$request->update_id]);
+       // dd($currentData->mobileNumber);
+        if($currentData->isApprovedAuthority==$request->nextStatus) {
+            $response = ['error' =>'This Application has current status and next status is same.'];
+            return response()->json($response);
+        }
 
-//        if($request->currentStatus==$request->nextStatus) {
-//            $response = ['error' =>'This Application has current status and next status is same.'];
-//            return response()->json($response);
-//        }
-
-//        $currentData = DonarInfo::find($request->update_id);
-//        if($currentData->approvedStatus==$request->nextStatus){
-//            $response = ['error' =>'This Application has current status and next status is same.'];
-//            return response()->json($response);
-//        }
 
         DB::beginTransaction();
         try {
@@ -253,10 +264,10 @@ class RegisteredApplicantController extends Controller
                 'updated_by'        => Auth::id(),
                 'updated_ip'        => $request->ip()
             ];
-            $sms ="Dear dt, We, at 'Ex. Student Forum of Lemua High School',  greatly appreciate your donation. Your donation amount  has been successfully received. ";
+            $sms ="Dear {$currentData->name}, We, at '50 Years Celebrate of Sheikh Mujibal Hoque High School',  greatly appreciate your registration. Your application   has been successfully approved ";
             $smsHistory=[
-                'donar_id'         => $request->user_id,
-                'mobile_number'    => '',
+                'donar_id'         => $request->update_id,
+                'mobile_number'    => $currentData->mobileNumber,
                 'msg'              => $sms,
                 'send_status'      => 1,
                 'ins_date'         => date('Y-m-d H:i:s'),

@@ -47,7 +47,8 @@
                         প্রক্রিয়া সম্পন্ন করতে হবে। পেমেন্ট প্রক্রিয়া সম্পন্ন করতে নিচের "Registration Confirm" বাটনে
                         ক্লিক করুন
                     </div>
-                    <a href="{{ url('admin/confirmRegistration/'.$userInfo->id) }}" class="btn btn-success btn-lg  text-center"> Registration Confirm <i class="fa  fa-angle-right"></i></a>
+                    <a href="{{ url('admin/confirmRegistration/'.$userInfo->id) }}" class="btn btn-success btn-lg
+                    text-center">  Confirm Registration <i class="fa  fa-angle-right"></i></a>
                 @elseif(!empty($applicantInfo->approved_status) && $applicantInfo->approved_status==2 && !empty
                 ($applicantInfo->invoiceIDs))
                     <div class="alert alert-primary" role="alert">

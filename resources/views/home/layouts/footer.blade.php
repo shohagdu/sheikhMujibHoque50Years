@@ -20,7 +20,9 @@
                 <a class="text-white mb-2" href="{{ url('/registrationProcess')}}"><i class="fa fa-angle-right text-primary mr-2"></i>রেজিস্ট্রেশন প্রক্রিয়া</a>
                 <a class="text-white mb-2" href="{{ url('/events')}}"><i class="fa fa-angle-right text-primary mr-2"></i>ইভেন্ট সম্পর্কে</a>
                 <a class="text-white mb-2" href="{{ url('/subCommittee')}}"><i class="fa fa-angle-right text-primary mr-2"></i>উপকমিটি সমূহ</a>
+
                 <a class="text-white" href="{{ url('/signUp')}}"><i class="fa fa-angle-right text-primary mr-2"></i>রেজিস্ট্রেশন</a>
+
                 <a class="text-white" href="{{ url('/admin')}}"><i class="fa fa-angle-right text-primary mr-2"></i>লগ ইন</a>
             </div>
         </div>
