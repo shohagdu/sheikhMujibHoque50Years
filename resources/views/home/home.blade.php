@@ -1,7 +1,6 @@
 @extends('home.main')
 @section('title', 'হোম | ৫০ বছর পূর্তি উদযাপন ২০২২ | শেখ মুজিবল হক উচ্চ বিদ্যালয়')
 @section('main_content')
-    <!-- Page Header Start -->
     <div class="container-fluid page-header d-flex flex-column align-items-center justify-content-center pt-0 pt-lg-5
      mb-5" style="background-image:url({{ asset('public/web/img/header.jpg')}});
         background-repeat:no-repeat;
@@ -9,8 +8,6 @@
         background-size: 100%;
         ">
     </div>
-    <!-- Page Header Start -->
-    <!-- About Start -->
     <div class="container-fluid py-5">
         <div class="container">
             <div class="row">
@@ -50,5 +47,25 @@
             </div>
         </div>
     </div>
-    <!-- About End -->
+    <div class="modal fade" id="regModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-md" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel"> সুবর্ণ জয়ন্তী ও পুনর্মিলনী অনুষ্ঠান রেজিস্ট্রেশন  </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" style="margin: 0px;padding: 0px;">
+                    <a href="{{ url('/signUp') }}">
+                        <img src="{{ asset('public/web/img/modalImg.jpg') }}" style="width: 100%;">
+                    </a>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection

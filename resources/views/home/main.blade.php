@@ -75,7 +75,10 @@
             autoplay:true,
             autoplayTimeout:2000,
         });
+        $("#regModal").modal('show');
+
     });
+
 </script>
 </body>
 
