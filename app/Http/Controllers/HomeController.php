@@ -236,17 +236,24 @@ class HomeController extends Controller
             'name'              => ['required', 'string', 'max:255'],
             'mobileNo'          => ['required',   'min:11'  ,'numeric'],
             'sscBatch'          => ['required'],
+            'termsCondition'          => ['required'],
             'password'          => ['required', 'string',  'confirmed'],
         ],[
             'name.required'                         => 'আপনার নাম প্রদান করুন',
             'mobileNo.required'                     => 'আপনার মোবাইল নাম্বার প্রদান করুন',
             'sscBatch.required'                     => 'আপনার এস.এস.সি ব্যাচ চিহ্নিত করুন',
+            'termsCondition.required'               => 'Terms and Condition , Privacy Policy and Refund Policy. বক্সটি  চিহ্নিত করুন',
         ]);
 
         if ($validator->fails()) {
             return redirect('/signUp')
                 ->withErrors($validator)
                 ->withInput();
+        }
+        if(empty($request->termsCondition)){
+            $error = "Terms and Condition , Privacy Policy and Refund Policy. বক্সটি  চিহ্নিত করুন" ;
+            Session::flash('message', $error);
+            return redirect('/signUp');
         }
 
         $data=[
@@ -274,7 +281,7 @@ class HomeController extends Controller
             $data['user_id']    =   $userInfo->id;
             RegistrationModels::create($data);
             DB::commit();
-            $success_output = "Dear {$data['name']}, Thank you for your great generosity! We, at 'Ex. Student Forum of sheikh Mujib Hoque High School',  greatly appreciate your donation. Your support helps to succeed our mission. ";
+            $success_output = "Dear {$data['name']}, Thank you for your great generosity! We, at 'Ex. Student Forum of sheikh Mujib Hoque High School',  greatly appreciate your Registration. Your support helps to succeed our mission. ";
             Session::flash('message', $success_output);
             return redirect('/admin/dashboard');
         } catch (\Exception $e) {

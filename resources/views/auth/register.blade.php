@@ -88,7 +88,7 @@
                                         is-invalid @enderror" name="password" required autocomplete="new-password">
 
                                     @error('password')
-                                    <span class="invalid-feedback" role="alert">
+                                        <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
                                         </span>
                                     @enderror
@@ -107,7 +107,8 @@
                             <div class="form-group row">
                                 <label  class="col-md-4 col-form-label text-md-right"></label>
                                 <div class="col-md-6">
-                                    <input class="form-check-input" required name="termsCondition" type="checkbox" value=""
+                                    <input class="form-check-input"  required name="termsCondition"
+                                           type="checkbox" {{ (!empty(old('termsCondition'))?'checked':'') }} value="1"
                                            id="termsCondition" >
                                     <label class="form-check-label" for="flexCheckDisabled">
                                         I have read and agree with website's <a href="{{ url('termsOfService') }}" target="_blank">Terms
@@ -117,6 +118,11 @@
                                                                                 and
                                         <a href="{{ url('/refundReturns') }}" target="_blank">Refund Policy.</a>
                                     </label>
+                                    @error('termsCondition')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
                                 </div>
                             </div>
 
