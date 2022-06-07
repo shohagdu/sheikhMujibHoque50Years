@@ -104,6 +104,22 @@
                                            name="password_confirmation" required autocomplete="new-password">
                                 </div>
                             </div>
+                            <div class="form-group row">
+                                <label  class="col-md-4 col-form-label text-md-right"></label>
+                                <div class="col-md-6">
+                                    <input class="form-check-input" required name="termsCondition" type="checkbox" value=""
+                                           id="termsCondition" >
+                                    <label class="form-check-label" for="flexCheckDisabled">
+                                        I have read and agree with website's <a href="{{ url('termsOfService') }}" target="_blank">Terms
+                                            and
+                                            Condition </a> ,
+                                        <a href="{{ url('/privacyPolicy') }}" target="_blank">Privacy Policy</a>
+                                                                                and
+                                        <a href="{{ url('/refundReturns') }}" target="_blank">Refund Policy.</a>
+                                    </label>
+                                </div>
+                            </div>
+
 
                             <div class="form-group row mb-0">
                                 <div class="col-md-6 offset-md-4">

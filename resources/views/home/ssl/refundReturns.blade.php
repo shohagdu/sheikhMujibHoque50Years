@@ -12,7 +12,7 @@
             <li>Registration fee will not return.</li>
             <li>We support this plan to meet the full needs of a user in order to make people prosperous and move the country forward.</li>
 
-            <li><p>Our Team review your refund appeal. Then Within five hours If you think it is refundable, you must be refunded. In that case 75% will be deducted from you and you will get 25% refund after 10 days.</p></li>
+            <li><p>Our Team review your refund appeal. Then Within five hours If you think it is refundable, you must be refunded.If the refund is approved, the merchant needs to provide the full refund money to the customer. The merchant can not deduct any perchantage from the refund amount after  7 to 10 working days.</p></li>
         </ul>
             <h4>Reasons For Rejection Of &#8220;Refund Request&#8221;</h4>
         <ul>
@@ -20,7 +20,8 @@
                 Complete
                 .</li>
             <li>Your money will be not refundable After 2 hours of registration process complete</li>
-            <li>Instant refunds are not possible because we accept payments through the gateway.</li>
+            <li>Instant refunds are not possible because we accept payments through the gateway. Standard refunds timeline of
+                7 to 10 working days. </li>
             <li>If you want a refund outside of our terms and conditions, we are not obliged to pay. We do not agree with your irrational logic.</li>
         </ul>
 
