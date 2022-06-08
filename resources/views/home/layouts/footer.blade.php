@@ -7,10 +7,15 @@
             </a>
                         <p> Sheikh Mujibal Hoque High School</p>
             <div class="d-flex justify-content-start mt-4">
+
+                <a class="btn btn-outline-primary rounded-circle text-center mr-2 px-0" style="width: 38px; height:
+                38px;" href="https://www.facebook.com/groups/2098088193849691" target="_blank"><i class="fab
+                fa-facebook-f"></i></a>
+                <!--
                 <a class="btn btn-outline-primary rounded-circle text-center mr-2 px-0" style="width: 38px; height: 38px;" href="#"><i class="fab fa-twitter"></i></a>
-                <a class="btn btn-outline-primary rounded-circle text-center mr-2 px-0" style="width: 38px; height: 38px;" href="#"><i class="fab fa-facebook-f"></i></a>
                 <a class="btn btn-outline-primary rounded-circle text-center mr-2 px-0" style="width: 38px; height: 38px;" href="#"><i class="fab fa-linkedin-in"></i></a>
                 <a class="btn btn-outline-primary rounded-circle text-center mr-2 px-0" style="width: 38px; height: 38px;" href="#"><i class="fab fa-instagram"></i></a>
+                -->
             </div>
         </div>
         <div class="col-lg-3 col-md-6 mb-5">

@@ -9,8 +9,7 @@
         <p class="mb-4 text-justify">
         <h4>Some instructions for refunds</h4>
         <ul>
-            <li>Registration fee will not return.</li>
-            <li>We support this plan to meet the full needs of a user in order to make people prosperous and move the country forward.</li>
+            <li>Registration fee will 100% returnable.</li>
 
             <li><p>Our Team review your refund appeal. Then Within five hours If you think it is refundable, you must be refunded.If the refund is approved, the merchant needs to provide the full refund money to the customer. The merchant can not deduct any perchantage from the refund amount after  7 to 10 working days.</p></li>
         </ul>
