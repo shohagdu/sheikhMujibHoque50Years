@@ -101,7 +101,9 @@ class SslCommerzPaymentController extends Controller
         # In orders table order uniq identity is "transaction_id","status" field contain status of the transaction, "amount" is the order amount to be paid and "currency" is for storing Site Currency which will be checked with paid currency.
         $post_data = array();
         $cart_json          = (!empty($request->cart_json)?json_decode($request->cart_json,true):'');
-
+        if(empty($cart_json['paymentID']) ){
+            return 'Payment ID Data is required from JS File';
+        }
         $invoiceRecord    = InvoiceInfosModel::InvoiceWithAppInfo(['invoice_infos.id'=>$cart_json['paymentID'],'invoice_infos.isActive'=>1,'invoice_infos.transId'=>$cart_json['transId'],'invoice_infos.invoiceId'=>$cart_json['invoiceId'],'invoice_infos.netAmount'=>$cart_json['amount']]);
 
         if(empty($invoiceRecord->netAmount) || $invoiceRecord->netAmount<0){
