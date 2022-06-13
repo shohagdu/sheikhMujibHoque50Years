@@ -23,15 +23,15 @@
 
 @push('js_lib')
     <!-- bootstrap time picker -->
-    <script src="{{URL::asset('backend/plugins/timepicker/bootstrap-timepicker.min.js')}}"></script>
+{{--    <script src="{{URL::asset('backend/plugins/timepicker/bootstrap-timepicker.min.js')}}"></script>--}}
     <script src="{{URL::asset('backend/bower_components/bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js')}}"></script>
     <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
     <script src="{{ URL::asset('backend/dist/js/pages/dashboard.js') }}"></script>
-    <script src="{{ URL::asset('backend/plugins/printThis/printThis.js') }}"></script>
+{{--    <script src="{{ URL::asset('backend/plugins/printThis/printThis.js') }}"></script>--}}
     <script src="{{ URL::asset('backend/bower_components/moment/min/moment.min.js') }}"></script>
     <script src="{{ URL::asset('backend/bower_components/bootstrap-daterangepicker/daterangepicker.js') }}"></script>
 
-    <script src="{{ URL::asset('backend/plugins/fullcalendar/fullcalendar.js') }}"></script>
+{{--    <script src="{{ URL::asset('backend/plugins/fullcalendar/fullcalendar.js') }}"></script>--}}
 @endpush
 <style>
     .table td{

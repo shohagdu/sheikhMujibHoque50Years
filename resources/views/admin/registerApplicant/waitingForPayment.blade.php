@@ -1,9 +1,9 @@
 @extends('admin.layouts.app')
 @push('css_lib')
     <!-- DataTables -->
-    <link rel="stylesheet" href="{{ URL::asset('backend/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}"/>
-    <link rel="stylesheet" href="{{ URL::asset('backend/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}"/>
-    <link rel="stylesheet" href="{{ URL::asset('backend/plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}"/>
+{{--    <link rel="stylesheet" href="{{ URL::asset('backend/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}"/>--}}
+{{--    <link rel="stylesheet" href="{{ URL::asset('backend/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}"/>--}}
+{{--    <link rel="stylesheet" href="{{ URL::asset('backend/plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}"/>--}}
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -70,7 +70,7 @@
                                         রেজিস্ট্রেশন প্রক্রিয়া সম্পন্ন করুন</h5>
                                     @endif
                                     <hr/>
-                                    <form  action="" id="confirmRegistrationForm" class="form-horizontal" method="post">
+{{--                                    <form  action="" id="confirmRegistrationForm" class="form-horizontal" method="post">--}}
                                         <div class="col-sm-12 row">
                                             <div class="col-sm-3 text-center">
                                                 <img src="{{ (file_exists($applicantInfo->picture))?url(
@@ -238,7 +238,7 @@
                                                 @if(!empty($applicantInfo->paidStatus) &&
                                                 $applicantInfo->paidStatus==1 &&
                                     $applicantInfo->netAmount > 0 )
-                                                    <button type="button" class="your-button-class" id="sslczPayBtn"
+                                                    <button type="button" class="btn btn-success" id="sslczPayBtn"
                                                             token="if you have any token validation"
                                                             postdata="your javascript arrays or objects which requires in backend"
                                                             order="If you already have the transaction generated for current order"
@@ -246,8 +246,6 @@
                                                     </button>
                                                 @endif
                                             </div>
-
-                                    </form>
 
                                 </div>
                             </div>
@@ -263,14 +261,6 @@
 @endsection
 
 @push('js_lib')
-    <!-- DataTables -->
-    <script src="{{ URL::asset('backend/plugins/datatables/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ URL::asset('backend/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
-    <script src="{{ URL::asset('backend/plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
-    <script src="{{ URL::asset('backend/plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
-    <script src="{{ URL::asset('backend/plugins/datatables-buttons/js/dataTables.buttons.min.js') }}"></script>
-    <script src="{{ URL::asset('backend/plugins/datatables-buttons/js/buttons.bootstrap4.min.js') }}"></script>
-
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
             integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
             crossorigin="anonymous"></script>
@@ -284,6 +274,7 @@
 @endpush
 @push('js_custom')
     <script>
+
         var obj = {};
         obj.paymentID = '<?php echo Request::segment(3); ?>';
         obj.paymentID = '<?php echo (!empty($applicantInfo->invoiceIDs)?$applicantInfo->invoiceIDs:'') ?>';

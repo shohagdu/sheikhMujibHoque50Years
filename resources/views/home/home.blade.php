@@ -63,7 +63,10 @@
                     </a>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    <a href="{{ url('/signUp') }}" class="btn btn-info" >রেজিস্ট্রেশন</a>
+                    <a href="{{ url('/admin') }}" class="btn btn-success" >লগ ইন</a>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal"> Close</button>
+
                 </div>
             </div>
         </div>
