@@ -88,8 +88,8 @@
                     </li>
                 </ul>
                 </div>
-                <div class="col-sm-2"></div>
-                <div class=" col-sm-4">
+                <div class="col-sm-1"></div>
+                <div class=" col-sm-5">
                 <h5 class="font-weight-bold text-decoration-underline">"অর্থ-উপকমিটি"</h5>
                 <ul>
                     <li><b>আহবায়ক </b>-  আওরঙ্গজেব খান।</li>
