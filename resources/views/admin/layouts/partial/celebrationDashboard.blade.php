@@ -8,7 +8,7 @@
 
     $iBatch                = 1;
     $totalAmountBatch      = 0;
-    $totalparticipate      = 0;
+    $totalBatchApplyParticipator= 0;
 
 
     $totalAmountDate        = 0;
@@ -142,7 +142,7 @@
                     @if(!empty($batchWiseReceivedAmnt))
                         @foreach($batchWiseReceivedAmnt as $batch)
                             @php($totalAmount             += $batch->paymentGetwayRecivedAmnt)
-                            @php($totalApplyParticipator  += $batch->applyParticipator)
+                            @php($totalBatchApplyParticipator  += $batch->applyParticipator)
                             <tr>
                                 <td>{{ $iBatch++ }}</td>
                                 <td>{{ (!empty($batch->sscBatch)?$batch->sscBatch:'')
@@ -162,7 +162,7 @@
                     <tfoot>
                         <tr>
                             <th class="text-center" colspan="2">Total  Amount</th>
-                            <th class="text-center" >{{ (!empty($totalApplyParticipator)?$totalApplyParticipator:'0') }}</th>
+                            <th class="text-center" >{{ (!empty($totalBatchApplyParticipator)?$totalBatchApplyParticipator:'0') }}</th>
                             <th class="text-right" >{{ (!empty($totalAmount)?number_format($totalAmount,2):'0.00') }}</th>
 
                         </tr>
@@ -279,7 +279,7 @@
                     <tfoot>
                     <tr>
                         <th class="text-center" colspan="2">Total  Amount</th>
-                        <th class="text-right" >{{ (!empty($totalDateParticipator)?number_format($totalDateParticipator,2):'0.00') }}</th>
+                        <th class="text-right" >{{ (!empty($totalDateParticipator)?$totalDateParticipator:'0') }}</th>
                         <th class="text-right" >{{ (!empty($totalAmountDate)?number_format($totalAmountDate,2):'0.00') }}</th>
                     </tr>
                     </tfoot>
