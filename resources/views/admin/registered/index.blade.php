@@ -74,12 +74,12 @@
                                     <th>SL</th>
                                     <th>নাম</th>
                                     <th>মোবাইল</th>
-                                    <th>এস. এস. সি ব্যাচ</th>
+                                    <th> ব্যাচ</th>
                                     <th>গেস্ট  </th>
                                     <th>Trans.ID  </th>
-                                    <th>Net Amount </th>
-                                    <th>Paid Amount</th>
-                                    <th>Created At</th>
+                                    <th>NetAmount </th>
+                                    <th>PaidAmount</th>
+                                    <th>Created </th>
                                     <th>Status</th>
                                     <th style="width: 20%">Action</th>
                                 </tr>

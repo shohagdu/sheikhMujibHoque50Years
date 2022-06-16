@@ -95,8 +95,8 @@ class InvoiceInfosModel extends Authenticatable
         return $query->sum('store_amount');
     }
     public static function receivedCtgInfo($where) {
-        $query    =    InvoiceInfosModel::selectRaw('applyType,Count(applicant.id) as applyParticipator, SUM(store_amount) AS
-        paymentGetwayRecivedAmnt')-> where(['isActive'=>1])
+        $query    =    InvoiceInfosModel::selectRaw("applyType,Count(applicant.id) as applyParticipator, SUM(store_amount) AS
+        paymentGetwayRecivedAmnt,". "COUNT(CASE WHEN approved_status =3 THEN applicant.id ELSE NULL END) AS PaidParticipant," . "COUNT(CASE WHEN applicant.approved_status = 2 THEN applicant.id ELSE NULL END) AS invoiceGeneratedParticipant")-> where(['isActive'=>1])
         ->join('registrationrecord as applicant', function($join) {
             $join->on('applicant.id', '=', 'invoice_infos.applicantId')->where(["applicant.is_active"=>1]) ;
         })->join('users as u', function($join) {
@@ -111,7 +111,7 @@ class InvoiceInfosModel extends Authenticatable
 
     public static function batchWiseReceivedAmnt($where) {
         $query    =    InvoiceInfosModel::selectRaw('sscBatch,Count(applicant.id) as applyParticipator, SUM(store_amount) AS
-        paymentGetwayRecivedAmnt')-> where(['isActive'=>1])
+        paymentGetwayRecivedAmnt,'. "COUNT(CASE WHEN approved_status =3 THEN applicant.id ELSE NULL END) AS PaidParticipant," . "COUNT(CASE WHEN applicant.approved_status = 2 THEN applicant.id ELSE NULL END) AS invoiceGeneratedParticipant")-> where(['isActive'=>1])
             ->join('registrationrecord as applicant', function($join) {
                 $join->on('applicant.id', '=', 'invoice_infos.applicantId')->where(["applicant.is_active"=>1]) ;
             })->join('users as u', function($join) {
@@ -125,7 +125,7 @@ class InvoiceInfosModel extends Authenticatable
     }
     public static function bestBatchWiseReceivedAmnt($where) {
         $query    =    InvoiceInfosModel::selectRaw('sscBatch,Count(applicant.id) as applyParticipator, SUM(store_amount) AS
-        paymentGetwayRecivedAmnt')-> where(['isActive'=>1])
+        paymentGetwayRecivedAmnt,'. "COUNT(CASE WHEN approved_status =3 THEN applicant.id ELSE NULL END) AS PaidParticipant," . "COUNT(CASE WHEN applicant.approved_status = 2 THEN applicant.id ELSE NULL END) AS invoiceGeneratedParticipant")-> where(['isActive'=>1])
             ->join('registrationrecord as applicant', function($join) {
                 $join->on('applicant.id', '=', 'invoice_infos.applicantId')->where(["applicant.is_active"=>1]) ;
             })->join('users as u', function($join) {

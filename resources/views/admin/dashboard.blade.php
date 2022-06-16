@@ -9,7 +9,7 @@
                 @if(1==2)
                     @include('admin/layouts/partial/donationDashboard')
                 @endif
-                @if(!empty($userType) && ($userType==1 || $userType==2 || $userType==3 ))
+                @if(!empty($userType) && ($userType==1 || $userType==2 || $userType==3|| $userType==4 ))
                         @include('admin/layouts/partial/celebrationDashboard')
                 @endif
                 @if(!empty($userType) && ($userType==10 ))

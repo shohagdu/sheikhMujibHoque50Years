@@ -22,7 +22,7 @@
                     </p>
                 </a>
             </li>
-            @if(!empty($userType) && ($userType==1 || $userType==2|| $userType==3))
+            @if(!empty($userType) && ($userType==1 || $userType==2 || $userType==3|| $userType==4))
                 <li class="nav-item">
                     <a href="{{ route('registered.index') }}" class="nav-link">
                         <i class="nav-icon fas fa-calculator"></i>

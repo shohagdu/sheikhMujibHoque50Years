@@ -74,15 +74,17 @@
                     <img src="{{ URL::asset(Auth::user()->profile ? Auth::user()->profile->image : 'backend/images/avatar.jpg' ) }}" class="img-circle" alt="User Image">
                     <p>
                         {{ ucfirst(Auth::user()->name) }}
-                        <small>Member since Nov. 2012</small>
+{{--                        <small>Member since Nov. 2012</small>--}}
                     </p>
                 </li>
                 <!-- Menu Body -->
                 <!-- Menu Footer-->
                 <li class="user-footer">
+                    <!--
                     <div class="pull-left">
                         <a href="{{route('profile')}}" class="btn btn-default btn-flat">Profile</a>
                     </div>
+                    -->
                     <div class="pull-right">
                         <a href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();" class="btn btn-default btn-flat">Sign out</a>
                         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none">

@@ -156,7 +156,7 @@ class DashboardController extends Controller
                 $guestInfo   = $guestData->get();
             }
         }
-
+//        dd($bestBatchWiseReceivedAmnt);
 
         return view('admin.dashboard',compact('userType','expenseInfo','userInfo',
             'applicantInfo',
