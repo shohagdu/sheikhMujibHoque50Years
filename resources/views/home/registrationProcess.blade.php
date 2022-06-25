@@ -29,7 +29,7 @@
                 </li>
                 <li>
                     <h5 class="guideline">৩. Confirm Registration এবং  রেজিস্ট্রেশন ফি প্রদান</span> এর  মাধ্যমে  রেজিস্ট্রেশন   প্রক্রিয়া
-                        সম্পন্ন করা। এখানে তিনটি ধাপে পুরো প্রসেস সম্পন্ন করতে হবে। </h5>
+                        সম্পন্ন করা। এখানে চারটি ধাপে পেমেন্ট প্রসেস সম্পন্ন করতে হবে। </h5>
                     <br/>
                     <h6>i) লগইন সম্পন্ন হওয়ার পর ড্যাশবোর্ড থেকে Confirm registration বাটনে ক্লিক করতে হবে।</h6>
                     <img src="{{ asset('public/web/documents/deshobard.png') }}" class="img-thumbnail" style="width:
