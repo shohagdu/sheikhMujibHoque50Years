@@ -17,6 +17,7 @@
                 <a class="btn btn-outline-primary rounded-circle text-center mr-2 px-0" style="width: 38px; height: 38px;" href="#"><i class="fab fa-instagram"></i></a>
                 -->
             </div>
+
         </div>
         <div class="col-lg-3 col-md-6 mb-5">
             <h5 class="font-weight-bold text-primary mb-4">Quick Links</h5>

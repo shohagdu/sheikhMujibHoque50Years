@@ -11,16 +11,21 @@
             <div class="row">
                 <div class="col-sm-4" style="border-right:1px solid #eee; ">
 
-                    <h5 class="font-weight-bold text-decoration-underline" >  কার্যকরী কমিটি  নিম্নরুপঃ-" </h5>
+                    <h5 class="font-weight-bold text-decoration-underline" >  "কার্যকরী কমিটি  নিম্নরুপঃ-" </h5>
                     <ul>
                         <li> </li>
-                        <li><b>প্রধান পৃষ্টপোষক ও সমন্বয়ক</b> -   জনাব আওরঙ্গজেব খান
-                            <br/>
-                            <small>(সভাপতি, বিদ্যালয় পরিচালনা পরিষদ)</small>
+                        <li><b>প্রধান পৃষ্টপোষক ও সমন্বয়ক</b> - <br/>
+                            <div class="col-sm-12">
+                                জনাব আওরঙ্গজেব খান
+                                <br/>
+                                <small>(সভাপতি, বিদ্যালয় পরিচালনা পরিষদ)</small>
+                            </div>
                         </li>
-                        <li><b>সভাপতি -</b>     জনাব হাজী এয়ার আহম্মদ
+                        <li><b>সভাপতি -</b>   <div class="col-sm-12">
+                                জনাব হাজী এয়ার আহম্মদ
                             <br/>
                             <small>(প্রতিষ্ঠাতা সদস্য)</small>
+                            </div>
                         </li>
 
                         <li><b> সভাপতি মণ্ডলীর সদস্যবৃন্দ -</b></li>

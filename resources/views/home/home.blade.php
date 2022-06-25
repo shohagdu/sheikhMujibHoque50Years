@@ -8,7 +8,7 @@
         background-size: 100%;
         ">
     </div>
-    <div class="container-fluid py-5">
+    <div class="container-fluid ">
         <div class="container">
             <div class="row">
                 <div class="col-lg-8  mt-lg-0">
@@ -26,20 +26,34 @@
                         কার্যকরী কমিটি।<br/>
                         সুবর্ণজয়ন্তী উদযাপন পরিষদ।
                     </p>
+                    <div class="text-center" style="margin-top:100px;">
+                   <h5 style="font-weight: bold;"> শেখ মুজিবল হক উচ্চ বিদ্যালয় এর
+                    "সুবর্ণ জয়ন্তী উৎসবের নিবন্ধন কার্যক্রম"</h5>
+                        <h5>..............শুভ উদ্বোধন.............</h5>
+                        <video  style="width:100%" controls>
+                            <source src="public/web/documents/firstVideo.mp4" type="video/mp4">
+                        </video>
+                    </div>
                 </div>
                 <div class="col-lg-4 mt-lg-0">
                     <div class="row">
                         <div class="col-lg-12 col-sm-12 text-center">
                             <h2><small data-qa="subtitle" >এখনও রেজিস্ট্রেশন করেননি?</small> </h2>
-                                <a style="margin-left:20px;" class="btn btn-success " href="{{ url('/signUp') }}"
-                                >রেজিস্ট্রেশন </a>
+                                <a style="margin-left:20px;" class="btn btn-info " href="{{ url('/signUp') }}"
+                                > <i class="fa fa-user-plus"></i> রেজিস্ট্রেশন </a>
 
 
                             <div  style="margin-top:70px !important;text-align:center;">
                                 <h2><small data-qa="subtitle" >ইতিমধ্যে রেজিস্ট্রেশন করেছেন?</small></h2>
-                                <a style="margin-left:20px;" class="btn btn-info " target="_blank" href="{{ url
-                                ('/admin') }}">লগ ইন </a>
+                                <a style="margin-left:20px;" class="btn btn-success " target="_blank" href="{{ url
+                                ('/admin') }}"><i class="fas fa-sign-in-alt"></i> লগ ইন </a>
                             </div>
+                             <div  style="margin-top:70px !important;text-align:center;">
+                                <h2><small data-qa="subtitle" >যে কোন সমস্যা জন্য কল করুন </small></h2>
+                                 <a href="tel:01819 603239" style="font-size:20px;letter-spacing: 2px;
+                                 color:black"><i class="fas fa-phone"></i>&nbsp;01819 603239</a>
+                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -63,9 +77,15 @@
                     </a>
                 </div>
                 <div class="modal-footer">
-                    <a href="{{ url('/signUp') }}" class="btn btn-info" >রেজিস্ট্রেশন</a>
-                    <a href="{{ url('/admin') }}" class="btn btn-success" >লগ ইন</a>
-                    <button type="button" class="btn btn-danger" data-dismiss="modal"> Close</button>
+
+                    <a href="{{ url('/signUp') }}" class="btn btn-info" > <i class="fa fa-user-plus"></i>
+                        রেজিস্ট্রেশন</a>
+
+                    <a href="{{ url('/admin') }}" class="btn btn-success" ><i class="fas fa-sign-in-alt"></i> লগ ইন</a>
+                    <a href="{{ url('/registrationProcess') }}" class="btn btn-warning" ><i class="fas fa-question-circle"></i>
+                        গাইডলাইন</a>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal"><i  class="fa">&#xf00d;</i>
+                        Close</button>
 
                 </div>
             </div>

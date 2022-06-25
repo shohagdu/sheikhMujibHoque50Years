@@ -64,7 +64,7 @@ class HomeController extends Controller
              'info'      => "<h4>৫০ বছর পূর্তি উদযাপন ২০২২</h4>
                     <h5>শেখ মুজিবল হক উচ্চ বিদ্যালয়</h5>
                     <h6>মজুমদারহাট, পো: ধর্মপুর, ফেনী সদর, ফেনী। </h6>
-                    <p ><i class=\"fas fa-phone\"></i>&nbsp; <a href=\"tel:01*** ******\">০১৮১৯ ৬০৩২৩৯</a></p>"
+                    <p ><i class=\"fas fa-phone\"></i>&nbsp; <a href=\"tel:01819 603239\">01819 603239</a></p>"
          ];
          return view('home.contactUs', compact('data'));
     }
